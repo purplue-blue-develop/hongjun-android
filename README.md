@@ -2,7 +2,7 @@
 
 프로젝트 일정 및 UI/UX 설계서
 
-[UI/UX설계서](./documnets/UI-UX-설계서) 
+[UI/UX설계서](./documents/UI-UX-설계서) 
 
 ## 개발 Milestone 
 
