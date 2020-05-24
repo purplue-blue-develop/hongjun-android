@@ -75,8 +75,9 @@
         android:layout_marginRight="24dp"
         android:ems="10"
         android:gravity="start|top"
+        android:inputType="text"
         android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
+        app:layout_constraintEnd_toStartOf="@+id/SearchProjectButton"
         app:layout_constraintStart_toEndOf="@+id/textView5"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,7 +137,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/CreateProjectBuildingModelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView9">
@@ -151,7 +152,7 @@
     <!--endregion-->
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/SearchProjectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -170,7 +171,7 @@
         android:layout_marginRight="24dp"
         android:text="달력열기"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
+        app:layout_constraintTop_toBottomOf="@+id/SearchProjectButton" />
 
     <Button
         android:id="@+id/button5"
@@ -184,7 +185,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button3" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/CreateProjectBuildingModelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
