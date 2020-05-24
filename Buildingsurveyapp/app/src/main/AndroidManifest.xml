@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.New_Edit_Project.NewProjectActivity"></activity>
+        <activity android:name=".Activities.Original_Project.OriginalProjectActivity"></activity>
         <activity android:name=".Activities.MainPage.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
