@@ -9,8 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.New_Edit_Project.NewProjectActivity"></activity>
-        <activity android:name=".Activities.Original_Project.OriginalProjectActivity"></activity>
+        <activity android:name=".Main2Activity"></activity>
+        <activity
+            android:name=".Activities.Popups.PopupShowingProjectList"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".Activities.New_Edit_Project.NewProjectActivity" />
+        <activity android:name=".Activities.Original_Project.OriginalProjectActivity" />
         <activity android:name=".Activities.MainPage.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

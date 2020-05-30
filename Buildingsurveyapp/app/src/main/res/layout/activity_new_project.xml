@@ -65,7 +65,7 @@
 
     <!--region InputField-->
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/textViewProjectName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -82,7 +82,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/textViewBuildingName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -92,10 +92,10 @@
         android:gravity="start|top"
         android:singleLine="true"
         app:layout_constraintStart_toEndOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/editText" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewProjectName" />
 
     <EditText
-        android:id="@+id/editText3"
+        android:id="@+id/textViewInvestDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -106,12 +106,12 @@
         android:ems="10"
         android:gravity="start|top"
         android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintEnd_toStartOf="@+id/OpenCalendarDialog"
         app:layout_constraintStart_toEndOf="@+id/textView7"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBuildingName" />
 
     <EditText
-        android:id="@+id/editText4"
+        android:id="@+id/textViewFloorName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -122,34 +122,24 @@
         android:ems="10"
         android:gravity="start|top"
         android:singleLine="true"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/AddBuildingFloor"
         app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewInvestDate" />
     <!--endregion-->
 
     <!--region ScrollView-->
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recylerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/CreateProjectBuildingModelButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </ScrollView>
-    <!--endregion-->
+        app:layout_constraintTop_toBottomOf="@+id/textView9"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/SearchProjectButton"
@@ -163,7 +153,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/OpenCalendarDialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
@@ -174,7 +164,7 @@
         app:layout_constraintTop_toBottomOf="@+id/SearchProjectButton" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/AddBuildingFloor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -182,7 +172,7 @@
         android:layout_marginRight="24dp"
         android:text="층 추가"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/OpenCalendarDialog" />
 
     <Button
         android:id="@+id/CreateProjectBuildingModelButton"
@@ -194,6 +184,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

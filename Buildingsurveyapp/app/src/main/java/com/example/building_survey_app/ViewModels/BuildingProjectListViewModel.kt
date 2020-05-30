@@ -6,6 +6,6 @@ import com.example.building_survey_app.Models.BuildingProject
 class BuildingProjectListViewModel
 {
     companion object{
-        var BuildingProjectList : List<BuildingProject> =  mutableListOf();
+        var BuildingProjectList = mutableListOf<BuildingProject>();
     }
 }

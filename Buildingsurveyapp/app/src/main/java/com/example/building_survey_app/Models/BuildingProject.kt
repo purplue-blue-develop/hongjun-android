@@ -11,7 +11,7 @@ class BuildingProject {
     // 생성일시
     val createdDate : LocalDateTime = LocalDateTime.now();
     // 최근수정일시
-    var latestetEditedDte : LocalDateTime = LocalDateTime.now();
+    var latestEditedDte : LocalDateTime = LocalDateTime.now();
 
     constructor()
     {
