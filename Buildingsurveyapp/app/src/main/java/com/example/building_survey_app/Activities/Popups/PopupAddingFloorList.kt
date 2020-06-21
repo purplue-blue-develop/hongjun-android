@@ -16,6 +16,8 @@ class PopupAddingFloorList : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_popup_adding_floor_list)
         findViewById<Button>(R.id.buttonClosePopupAddingFloorList).setOnClickListener(this);
+        findViewById<Button>(R.id.buttonAddFloor).setOnClickListener(this);
+        BuildingProjectListViewModel.BuildingProjectList.add(BuildingProject());
     }
 
     override fun onClick(v: View?) {
