@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 class BuildingProject {
     var projectName : String = "";
     var buildingName : String = "";
-    var floorList : List<Floor> = listOf();
+    var floorList = mutableListOf<Floor>();
     var investDate : LocalDateTime = LocalDateTime.now();
 
     // 생성일시

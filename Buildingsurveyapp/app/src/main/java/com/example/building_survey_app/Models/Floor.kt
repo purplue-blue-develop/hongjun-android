@@ -3,14 +3,16 @@ package com.example.building_survey_app.Models
 import android.graphics.Bitmap
 
 class Floor {
+    var Name : String ="";
     var FloorLayer : Bitmap? = null;
 
-    constructor() {
-
+    constructor(Name:String) {
+        this.Name = Name;
     }
 
-    constructor(_floorLayer : Bitmap)
+    constructor(Name:String, FloorLayer : Bitmap)
     {
-        FloorLayer = _floorLayer;
+        this.Name = Name
+        this.FloorLayer = FloorLayer
     }
 }

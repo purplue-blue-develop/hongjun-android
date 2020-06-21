@@ -17,6 +17,5 @@ class PopupShowingProjectList : Activity(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         finish();
-
     }
 }
