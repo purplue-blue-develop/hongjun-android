@@ -12,6 +12,10 @@ import android.widget.Button
 import android.widget.Spinner
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.R
+import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
+import java.lang.Exception
 
 class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -19,6 +23,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flaw_check);
         findViewById<Button>(R.id.buttonOpenAddFloorPopup).setOnClickListener(this);
+        findViewById<Button>(R.id.buttonSaveFlawModel).setOnClickListener(this);
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -52,6 +57,22 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             {
                 var intent = Intent(this, PopupAddingFloorList::class.java)
                 startActivity(intent);
+            }
+            R.id.buttonSaveFlawModel->
+            {
+                try {
+                    var flawModelData =
+                        ObjectOutputStream(FileOutputStream("buildingSurveyApp.data"))
+                    flawModelData.writeObject(
+                        BuildingProjectListViewModel.BuildingProjectList?.get(
+                            0
+                        )
+                    );
+                    flawModelData.close();
+                }
+                catch (e : Exception) {
+                    e.printStackTrace();
+                }
             }
         }
     }
