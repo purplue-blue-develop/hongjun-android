@@ -1,15 +1,15 @@
 package com.example.building_survey_app.Activities.FlawCheck
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
-import android.widget.AdapterView
+import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Spinner
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
@@ -17,13 +17,17 @@ import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.lang.Exception
 
-class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
+const val CAMERA_REQUET = 1
+const val CAMERA_CHKREQUEST = 2
 
+class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flaw_check);
         findViewById<Button>(R.id.buttonOpenAddFloorPopup).setOnClickListener(this);
         findViewById<Button>(R.id.buttonSaveFlawModel).setOnClickListener(this);
+        findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
+        findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -58,8 +62,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 var intent = Intent(this, PopupAddingFloorList::class.java)
                 startActivity(intent);
             }
-            R.id.buttonSaveFlawModel->
-            {
+            R.id.buttonSaveFlawModel-> {
                 try {
                     var flawModelData =
                         ObjectOutputStream(FileOutputStream("buildingSurveyApp.data"))
@@ -69,26 +72,49 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                         )
                     );
                     flawModelData.close();
-                }
-                catch (e : Exception) {
+                } catch (e: Exception) {
                     e.printStackTrace();
                 }
             }
+            R.id.buttonTakeAPhoto ->
+            {
+                val takepictureintent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if(takepictureintent.resolveActivity(this.packageManager) != null){
+                    startActivityForResult(takepictureintent, CAMERA_REQUET)
+                } else{
+                    Toast.makeText(this, "Unable to load Camera", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            R.id.buttonTakeACheckPhoto ->
+            {
+                val chkPhotoIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                if(chkPhotoIntent.resolveActivity(this.packageManager) != null){
+                    startActivityForResult(chkPhotoIntent, CAMERA_CHKREQUEST)
+                } else{
+                    Toast.makeText(this, "Unable to load Camera", Toast.LENGTH_SHORT).show()
+                }
+
+
+            }
+
         }
     }
 
-//     fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//        when(parent?.getItemAtPosition(position))
-//        {
-//            "균열"->{
-//                findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
-//                ArrayAdapter.createFromResource(this, R.array.flawPosItemArrayA, R.layout.activity_flaw_check );
-//            }
-//            "열화"->{
-//                findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
-//                    ArrayAdapter.createFromResource(this, R.array.flawPosItemArrayB, R.layout.activity_flaw_check );
-//            }
-//        }
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when(requestCode){
+            CAMERA_REQUET ->
+            {
+                val imageFloor = data?.extras?.get("data") as Bitmap
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+            CAMERA_CHKREQUEST ->
+            {
+                val imageCompFloor = data?.extras?.get("data") as Bitmap
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+
+    }
 }
 
