@@ -1,8 +1,9 @@
 package com.example.building_survey_app.Models
 
 import android.graphics.Bitmap
+import java.io.Serializable
 
-class Floor {
+class Floor : Serializable {
     var Name : String ="";
     var FloorLayer : Bitmap? = null;
 
