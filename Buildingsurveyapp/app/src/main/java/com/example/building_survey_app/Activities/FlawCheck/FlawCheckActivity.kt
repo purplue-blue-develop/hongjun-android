@@ -10,12 +10,16 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
+import com.example.building_survey_app.Models.BuildingProject
+import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream
 import java.lang.Exception
+import java.util.jar.Attributes
 
 const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
@@ -28,6 +32,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonSaveFlawModel).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
+        BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -63,18 +68,30 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 startActivity(intent);
             }
             R.id.buttonSaveFlawModel-> {
-                try {
-                    var flawModelData =
-                        ObjectOutputStream(FileOutputStream("buildingSurveyApp.data"))
-                    flawModelData.writeObject(
-                        BuildingProjectListViewModel.BuildingProjectList?.get(
-                            0
-                        )
-                    );
-                    flawModelData.close();
-                } catch (e: Exception) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    var flawModelData =
+//                        ObjectOutputStream(FileOutputStream("buildingSurveyApp.data"))
+//                    flawModelData.writeObject(
+//                        BuildingProjectListViewModel.BuildingProjectList?.get(
+//                            0
+//                        )
+//                    );
+//                    flawModelData.close();
+//                } catch (e: Exception) {
+//                    e.printStackTrace();
+//                }
+                var project = BuildingProjectListViewModel.BuildingProjectList?.get(0);
+                var newFlaw = FlawModel();
+                newFlaw.Name = findViewById<EditText>( R.id.editTextName ).text.toString();
+                newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
+                newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
+                newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
+                newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDouble();
+                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toInt();
+                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
+                project.flawList.add(newFlaw);
+                var intent = Intent(this, FlawListActivity::class.java);
+                startActivity(intent);
             }
             R.id.buttonTakeAPhoto ->
             {
@@ -94,10 +111,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 } else{
                     Toast.makeText(this, "Unable to load Camera", Toast.LENGTH_SHORT).show()
                 }
-
-
             }
-
         }
     }
 
