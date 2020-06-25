@@ -36,6 +36,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
         //findViewById<Spinner>(R.id.spinnerFloor).setAutofillHints()
         BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
+        findViewById<TextView>(R.id.textViewDisplayNo).text = BuildingProjectListViewModel.BuildingProjectList[0].flawList.size.toString();
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -89,9 +90,19 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
                 newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
                 newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
-                newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDouble();
-                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toInt();
-                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
+
+                if( findViewById<EditText>(R.id.editTextFlawWidth).text.toString().isNullOrEmpty())
+                    newFlaw.FlawWidth = 0.0;
+                 else newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDouble()
+
+                if ( findViewById<EditText>(R.id.editTextFlawCount).text.toString().isNullOrEmpty())
+                    newFlaw.FlawCount = 0;
+                else newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toInt();
+
+                if ( findViewById<EditText>(R.id.editTextFlawLength).text.toString().isNullOrEmpty())
+                    newFlaw.FlawLength =0.0;
+                else newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
+
                 project.flawList.add(newFlaw);
                 var intent = Intent(this, FlawListActivity::class.java);
                 startActivity(intent);

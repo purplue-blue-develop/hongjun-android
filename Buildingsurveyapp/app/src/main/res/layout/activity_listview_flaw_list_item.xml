@@ -4,42 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="1"
     tools:context=".listview_flawListItem">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="4"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        <ImageView
+            android:id="@+id/imageViewListViewItemCapturedPic"
+            android:layout_width="128dp"
+            android:layout_height="128dp"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
         <TextView
-            android:id="@+id/textViewID"
+            android:id="@+id/textViewListViewItemID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewListViewItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="36sp"
+            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
+            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemID" />
 
         <TextView
-            android:id="@+id/textViewFlawLength"
+            android:id="@+id/textViewListViewItemFlawCategory"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="36dp"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
+            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemName" />
 
         <TextView
-            android:id="@+id/textViewFlawCount"
+            android:id="@+id/textViewListViewItemFlawPos"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_weight="1"
-            android:text="TextView" />
-    </LinearLayout>
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemFlawCategory"
+            app:layout_constraintTop_toTopOf="@+id/textViewListViewItemFlawCategory" />
+
+        <TextView
+            android:id="@+id/textViewListViewItemFlaw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:text="TextView"
+            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemFlawPos"
+            app:layout_constraintTop_toTopOf="@+id/textViewListViewItemFlawPos" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

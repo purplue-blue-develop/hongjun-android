@@ -1,13 +1,13 @@
 package com.example.building_survey_app
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.ListView
 import android.widget.TextView
 
 class listview_flawListItem : AppCompatActivity() {
@@ -19,45 +19,45 @@ class listview_flawListItem : AppCompatActivity() {
 }
 
 class ListViewFlawItem {
-    var ID : String = "";
+    var capturedPic : Bitmap? = null;
+    var ID : Int = 0;
     var Name : String = "";
-    var FlawCategory : Double = 0.0;
-    var FlawCount : Int = 0;
-    var FlawLength : Double = 0.0;
+//    var FlawCategory : Double = 0.0;
+    var FlawCategory : String = "";
+    var FlawPos : String = "";
+    var Flaw : String = "";
 }
 
-class ListViewFlawItemAdapter : BaseAdapter() {
-    var Items = ArrayList<ListViewFlawItem>();
+class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFlawItem>) : BaseAdapter() {
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        var view = convertView;
-        var context = parent?.context;
+        var view = LayoutInflater.from(ctx).inflate(R.layout.activity_listview_flaw_list_item, null);
 
-        if (view == null) {
-            val inflater = context?.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater;
-            view = inflater.inflate(R.layout.activity_listview_flaw_list_item, parent, false);
-        }
-        val idTextView = view?.findViewById<TextView>(R.id.textViewID) as TextView;
-        val nameTextView = view?.findViewById<TextView>(R.id.textViewName) as TextView;
-        val flawCategoryTextView = view?.findViewById<TextView>(R.id.textViewFlawCategory) as TextView;
-        val flawCountTextView = view?.findViewById<TextView>(R.id.textViewFlawCount) as TextView;
-        val flawLengthTextView = view?.findViewById<TextView>(R.id.textViewFlawLength) as TextView;
+//        val imageView = view?.findViewById<ImageView>(R.id.imageViewListViewItemCapturedPic) as ImageView;
+        val idTextView = view.findViewById<TextView>(R.id.textViewListViewItemID) as TextView;
+        val nameTextView = view.findViewById<TextView>(R.id.textViewListViewItemName) as TextView;
+//        var flawCategoryView = view.findViewById<>()
 
-        val cur = Items[position];
+        val flawLengthTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlawCategory) as TextView;
+        val flawWidthTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlawPos) as TextView;
+        val flawCountTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlaw) as TextView;
 
-        idTextView.setText(cur.ID);
-        nameTextView.setText(cur.Name);
-        flawCategoryTextView.setText(cur.FlawCategory.toString());
-        flawCountTextView.setText(cur.FlawCount.toString());
-        flawLengthTextView.setText(cur.FlawLength.toString());
+        val cur = data[position];
+
+//        imageView.setImageBitmap(cur.capturedPic)
+        idTextView.text = cur.ID.toString();
+        nameTextView.text =cur.Name;
+        flawWidthTextView.text =cur.FlawCategory;
+        flawCountTextView.text = cur.FlawPos;
+        flawLengthTextView.text = cur.Flaw;
         return view;
     }
     override fun getItem(position: Int): Any {
-        return Items[position]
+        return data[position]
     }
     override fun getItemId(position: Int): Long {
         return position.toLong();
     }
     override fun getCount(): Int {
-        return Items.size;
+        return data.size;
     }
 }

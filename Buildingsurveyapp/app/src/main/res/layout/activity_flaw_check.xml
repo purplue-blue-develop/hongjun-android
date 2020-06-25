@@ -60,7 +60,7 @@
             app:layout_constraintTop_toBottomOf="@+id/TextViewStory" />
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewListViewItemName"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -77,7 +77,7 @@
             android:layout_marginTop="32dp"
             android:text="결함 종류"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewName" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemName" />
 
         <TextView
             android:id="@+id/textViewFlawPos"
@@ -165,7 +165,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="18dp"
             android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/textViewName"
+            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemName"
             app:layout_constraintTop_toBottomOf="@+id/textViewDisplayNo" />
 
         <EditText

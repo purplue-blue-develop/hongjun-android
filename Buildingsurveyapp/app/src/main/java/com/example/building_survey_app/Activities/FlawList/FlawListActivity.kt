@@ -16,19 +16,20 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flaw_list)
 
-        var listView = findViewById<View>(R.id.TotalFlawList) as ListView;
-        listView.adapter = ListViewFlawItemAdapter();
-
-        for (flawItem in BuildingProjectListViewModel.BuildingProjectList.get(0).flawList)
+        var listItems : ArrayList<ListViewFlawItem> = arrayListOf();
+        for (flawItem in BuildingProjectListViewModel.BuildingProjectList[0].flawList)
         {
             var newItem = ListViewFlawItem();
-            newItem.ID = flawItem.id.toString();
+            newItem.ID = flawItem.id;
             newItem.Name = flawItem.Name;
-            newItem.FlawCategory = flawItem.FlawCategory.toDouble();
-            newItem.FlawCount = flawItem.FlawCount.toInt();
-            newItem.FlawLength = flawItem.FlawLength.toDouble();
-//            (listView.adapter as ListViewFlawItemAdapter).Items.
+            newItem.FlawCategory = flawItem.FlawCategory;
+            newItem.FlawPos = flawItem.FlawPos;
+            newItem.Flaw = flawItem.Flaw;
+            listItems.add(newItem);
         }
+
+        var listView = findViewById<View>(R.id.TotalFlawList) as ListView;
+        listView.adapter = ListViewFlawItemAdapter(this, listItems);
     }
 
     override fun onClick(v: View?) {
