@@ -4,18 +4,21 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import androidx.core.view.drawToBitmap
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
+import kotlinx.android.synthetic.main.activity_flaw_check.*
 
 
 import java.io.FileOutputStream
@@ -91,7 +94,10 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
                 newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDouble();
                 newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toInt();
-                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
+                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble()
+//                ((BitmapDrawable)imageFloor.getDrawable()).getBitmap();
+                newFlaw.capturedPic = (findViewById<ImageView>(R.id.pictureimageView).drawable as BitmapDrawable).bitmap
+                newFlaw.compareCapturedPic = (findViewById<ImageView>(R.id.picturecompimageView).drawable as BitmapDrawable).bitmap
                 project.flawList.add(newFlaw);
                 var intent = Intent(this, FlawListActivity::class.java);
                 startActivity(intent);
@@ -122,13 +128,23 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         when(requestCode){
             CAMERA_REQUET ->
             {
-                val imageFloor = data?.extras?.get("data") as Bitmap
-                super.onActivityResult(requestCode, resultCode, data)
+                if(resultCode == Activity.RESULT_OK){
+                    val imageFloor = data?.extras?.get("data") as Bitmap
+                    pictureimageView.setImageBitmap(imageFloor)
+                } else{
+                    super.onActivityResult(requestCode, resultCode, data)
+                }
+
             }
             CAMERA_CHKREQUEST ->
             {
-                val imageCompFloor = data?.extras?.get("data") as Bitmap
-                super.onActivityResult(requestCode, resultCode, data)
+                if(resultCode == Activity.RESULT_OK){
+                    val imageCompFloor = data?.extras?.get("data") as Bitmap
+                    picturecompimageView.setImageBitmap(imageCompFloor)
+                } else{
+                    super.onActivityResult(requestCode, resultCode, data)
+                }
+
             }
         }
 
