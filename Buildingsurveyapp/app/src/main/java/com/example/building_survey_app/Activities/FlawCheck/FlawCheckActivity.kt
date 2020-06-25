@@ -12,6 +12,7 @@ import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.R
+import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
 
 const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
@@ -23,6 +24,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonOpenAddFloorPopup).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
+        //findViewById<Spinner>(R.id.spinnerFloor).setAutofillHints()
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
 

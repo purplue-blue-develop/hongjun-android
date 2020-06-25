@@ -32,7 +32,6 @@ class PopupAddingFloorList : AppCompatActivity(), View.OnClickListener {
                 var project : BuildingProject = BuildingProjectListViewModel.BuildingProjectList?.get(0);
                 val floorName  = findViewById<EditText>(R.id.editTextFloorName).text.toString();
                 project.floorList.add(Floor(floorName));
-
                 var floorNames = mutableListOf<String>();
                 for (floor in project.floorList)
                 {
@@ -41,12 +40,10 @@ class PopupAddingFloorList : AppCompatActivity(), View.OnClickListener {
                     } else{
                         floorNames.add(floor.Name);
                     }
-
                 }
 
                 val floorListView = findViewById<ListView>(R.id.ListViewShowFloorList)
                 val adapter = ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1,floorNames)
-                //adapter.add(Floor(floorName))
                 floorListView.adapter = adapter
 
             }
