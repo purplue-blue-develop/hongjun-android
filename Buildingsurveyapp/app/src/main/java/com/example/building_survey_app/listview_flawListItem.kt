@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.TextView
 
 class listview_flawListItem : AppCompatActivity() {
@@ -32,7 +33,7 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = LayoutInflater.from(ctx).inflate(R.layout.activity_listview_flaw_list_item, null);
 
-//        val imageView = view?.findViewById<ImageView>(R.id.imageViewListViewItemCapturedPic) as ImageView;
+        val imageView = view?.findViewById<ImageView>(R.id.imageViewListViewItemCapturedPic) as ImageView;
         val idTextView = view.findViewById<TextView>(R.id.textViewListViewItemID) as TextView;
         val nameTextView = view.findViewById<TextView>(R.id.textViewListViewItemName) as TextView;
 //        var flawCategoryView = view.findViewById<>()
@@ -43,7 +44,7 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
 
         val cur = data[position];
 
-//        imageView.setImageBitmap(cur.capturedPic)
+        imageView.setImageBitmap(cur.capturedPic)
         idTextView.text = cur.ID.toString();
         nameTextView.text =cur.Name;
         flawWidthTextView.text =cur.FlawCategory;

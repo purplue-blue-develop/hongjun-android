@@ -20,6 +20,7 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         for (flawItem in BuildingProjectListViewModel.BuildingProjectList[0].flawList)
         {
             var newItem = ListViewFlawItem();
+            newItem.capturedPic = flawItem.capturedPic;
             newItem.ID = flawItem.id;
             newItem.Name = flawItem.Name;
             newItem.FlawCategory = flawItem.FlawCategory;

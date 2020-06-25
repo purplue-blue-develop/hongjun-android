@@ -7,10 +7,6 @@
     android:layout_gravity="center"
     tools:context=".Activities.FlawList.FlawListActivity">
 
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
@@ -33,7 +29,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
-    </ScrollView>
 
     <Button
         android:id="@+id/button"
