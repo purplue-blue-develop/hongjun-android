@@ -1,72 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".listview_flawListItem">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imageViewListViewItemCapturedPic"
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:layout_marginTop="24dp"
             android:layout_weight="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/textViewListViewItemID"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="24dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewListViewItemName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            android:textSize="36sp"
-            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
-            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemID" />
+            <TextView
+                android:id="@+id/textViewListViewItemID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="id"/>
 
-        <TextView
-            android:id="@+id/textViewListViewItemFlawCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="36dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/imageViewListViewItemCapturedPic"
-            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemName" />
+            <TextView
+                android:id="@+id/textViewListViewItemName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="실명"
+                android:textSize="36sp"/>
 
-        <TextView
-            android:id="@+id/textViewListViewItemFlawPos"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemFlawCategory"
-            app:layout_constraintTop_toTopOf="@+id/textViewListViewItemFlawCategory" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewListViewItemFlaw"
+                <TextView
+                    android:id="@+id/textViewListViewItemFlawCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="결함유형"/>
+
+            <TextView
+                android:id="@+id/textViewListViewItemFlawPos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="결함위치"/>
+
+            <TextView
+                android:id="@+id/textViewListViewItemFlaw"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:text="결함"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_weight="1"
-            android:text="TextView"
-            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemFlawPos"
-            app:layout_constraintTop_toTopOf="@+id/textViewListViewItemFlawPos" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/flawListViewItemEditButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="수정" />
+
+            <Button
+                android:id="@+id/flawListViewItemRemoveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="삭제" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

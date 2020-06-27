@@ -30,6 +30,10 @@ const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
 
 class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
+    var imageFloor : Bitmap? = null;
+    var imageCompFloor : Bitmap? = null;
+    var isEditMode : Boolean = false;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flaw_check);
@@ -38,11 +42,8 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
         //findViewById<Spinner>(R.id.spinnerFloor).setAutofillHints()
-        BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
-        findViewById<TextView>(R.id.textViewDisplayNo).text = BuildingProjectListViewModel.BuildingProjectList[0].flawList.size.toString();
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -50,7 +51,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 {
                     "균열"->{
                         findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
-                            ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayA, R.layout.support_simple_spinner_dropdown_item );
+                            ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayA, R.layout.support_simple_spinner_dropdown_item);
                         findViewById<Spinner>(R.id.spinnerFlaw).adapter =
                             ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayA, R.layout.support_simple_spinner_dropdown_item );
                     }
@@ -63,6 +64,61 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+        if ( savedInstanceState == null) {
+            var navigateData = intent.extras;
+            // 수정 으로 들어온 경우
+            if (navigateData != null){
+                var id = navigateData.getInt("ID");
+                var flaw = BuildingProjectListViewModel.BuildingProjectList[0].flawList.find{
+                        flawModel->flawModel.id==id
+                }
+                if (flaw == null)
+                {
+
+                }
+                else {
+                    loadExistData(flaw)
+                    isEditMode = true;
+                    findViewById<Button>(R.id.buttonSaveFlawModel).text = "수정";
+                };
+            }
+            else {
+                BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
+                findViewById<TextView>(R.id.textViewDisplayNo).text =
+                    BuildingProjectListViewModel.BuildingProjectList[0].flawList.size.toString();
+            }
+        }
+    }
+
+    fun loadExistData(flaw : FlawModel)
+    {
+        findViewById<TextView>(R.id.textViewDisplayNo).text = flaw.id.toString();
+
+        var adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawCategoryItemArray, R.layout.support_simple_spinner_dropdown_item );
+        findViewById<Spinner>(R.id.spinnerFlawCategory).setSelection(adapter.getPosition(flaw.FlawCategory));
+        if ( flaw?.FlawCategory == "균열")
+        {
+            adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayA, R.layout.support_simple_spinner_dropdown_item);
+            findViewById<Spinner>(R.id.spinnerFlawPos).setSelection(adapter.getPosition(flaw.FlawPos));
+            adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayA, R.layout.support_simple_spinner_dropdown_item );
+            findViewById<Spinner>(R.id.spinnerFlaw).setSelection(adapter.getPosition(flaw.Flaw));
+        }
+        else
+        {
+            adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayB, R.layout.support_simple_spinner_dropdown_item);
+            findViewById<Spinner>(R.id.spinnerFlawPos).setSelection(adapter.getPosition(flaw.FlawPos));
+            adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayB, R.layout.support_simple_spinner_dropdown_item );
+            findViewById<Spinner>(R.id.spinnerFlaw).setSelection(adapter.getPosition(flaw.Flaw));
+        }
+
+        findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
+        findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
+        findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
+
+        findViewById<ImageView>(R.id.pictureimageView). setImageBitmap(flaw.capturedPic);
+        findViewById<ImageView>(R.id.picturecompimageView). setImageBitmap(flaw.compareCapturedPic);
+        imageFloor = flaw.capturedPic;
+        imageCompFloor = flaw.compareCapturedPic;
     }
 
     override fun onClick(v: View?) {
@@ -105,10 +161,21 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 if ( findViewById<EditText>(R.id.editTextFlawLength).text.toString().isNullOrEmpty())
                     newFlaw.FlawLength =0.0;
                 else newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
-//
-                newFlaw.capturedPic = (findViewById<ImageView>(R.id.pictureimageView).drawable as BitmapDrawable).bitmap
-                newFlaw.compareCapturedPic = (findViewById<ImageView>(R.id.picturecompimageView).drawable as BitmapDrawable).bitmap
-                project.flawList.add(newFlaw);
+
+                newFlaw.capturedPic = imageFloor;
+                newFlaw.compareCapturedPic = imageCompFloor;
+
+                if ( isEditMode  == false) {
+                    project.flawList.add(newFlaw);
+                }
+                else
+                {
+                    var flaw = project.flawList.find{
+                        f->f.id == newFlaw.id
+                    };
+                    var index = project.flawList.indexOf(flaw!!);
+                    project.flawList[index] = newFlaw;
+                }
                 var intent = Intent(this, FlawListActivity::class.java);
                 startActivity(intent);
             }
@@ -139,7 +206,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             CAMERA_REQUET ->
             {
                 if(resultCode == Activity.RESULT_OK){
-                    val imageFloor = data?.extras?.get("data") as Bitmap
+                    imageFloor = data?.extras?.get("data") as Bitmap
                     pictureimageView.setImageBitmap(imageFloor)
                 } else{
                     super.onActivityResult(requestCode, resultCode, data)
@@ -149,15 +216,31 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             CAMERA_CHKREQUEST ->
             {
                 if(resultCode == Activity.RESULT_OK){
-                    val imageCompFloor = data?.extras?.get("data") as Bitmap
+                    imageCompFloor = data?.extras?.get("data") as Bitmap
                     picturecompimageView.setImageBitmap(imageCompFloor)
                 } else{
                     super.onActivityResult(requestCode, resultCode, data)
                 }
-
             }
         }
+    }
 
+    fun IsEditMode(savedInstanceState: Bundle?) : Boolean
+    {
+        var result = false;
+        if ( savedInstanceState == null) {
+            var navigateData = intent.extras;
+            // 수정 으로 들어온 경우
+            if (navigateData != null){
+                var id = navigateData.getInt("ID");
+                var flaw = BuildingProjectListViewModel.BuildingProjectList[0].flawList.find{
+                        flawModel->flawModel.id==id
+                }
+                if (flaw != null)
+                    result = true;
+            }
+        }
+        return true;
     }
 }
 
