@@ -16,6 +16,7 @@ import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.Models.FlawModel
+import com.example.building_survey_app.Models.Floor
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
 import kotlinx.android.synthetic.main.activity_flaw_check.*
@@ -28,6 +29,7 @@ import java.util.jar.Attributes
 
 const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
+const val POPUP_FLOORADD = 3
 
 class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
     var imageFloor : Bitmap? = null;
@@ -41,8 +43,9 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonSaveFlawModel).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
-        //findViewById<Spinner>(R.id.spinnerFloor).setAutofillHints()
+        BuildingProjectListViewModel.BuildingProjectList.add(BuildingProject());
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
+
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
@@ -64,7 +67,20 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
-        if ( savedInstanceState == null) {
+
+        var floorList = BuildingProjectListViewModel.BuildingProjectList[0].floorList;
+        var floorListArray = mutableListOf<String>();
+        for( floor in floorList)
+        {
+            floorListArray.add(floor.Name);
+        }
+
+        val adapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, floorListArray);
+
+        val floorView = findViewById<Spinner>(R.id.spinnerFloor)
+        floorView.adapter = adapter
+
+        if (savedInstanceState == null) {
             var navigateData = intent.extras;
             // 수정 으로 들어온 경우
             if (navigateData != null){
@@ -111,6 +127,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             findViewById<Spinner>(R.id.spinnerFlaw).setSelection(adapter.getPosition(flaw.Flaw));
         }
 
+        findViewById<EditText>(R.id.editTextName).setText( flaw.Name.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
@@ -128,7 +145,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             R.id.buttonOpenAddFloorPopup->
             {
                 var intent = Intent(this, PopupAddingFloorList::class.java)
-                startActivity(intent);
+                startActivityForResult(intent, POPUP_FLOORADD);
             }
             R.id.buttonSaveFlawModel-> {
 //                try {
@@ -220,6 +237,23 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     picturecompimageView.setImageBitmap(imageCompFloor)
                 } else{
                     super.onActivityResult(requestCode, resultCode, data)
+                }
+            }
+
+            POPUP_FLOORADD ->
+            {
+                if(resultCode == Activity.RESULT_OK){
+                    var floorList = BuildingProjectListViewModel.BuildingProjectList[0].floorList;
+                    var floorListArray = mutableListOf<String>();
+                    for( floor in floorList)
+                    {
+                        floorListArray.add(floor.Name);
+                    }
+
+                    val adapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, floorListArray);
+
+                    val floorView = findViewById<Spinner>(R.id.spinnerFloor)
+                    floorView.adapter = adapter
                 }
             }
         }

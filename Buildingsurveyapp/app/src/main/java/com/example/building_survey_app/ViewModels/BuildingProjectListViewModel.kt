@@ -8,6 +8,5 @@ class BuildingProjectListViewModel
 {
     companion object{
         var BuildingProjectList = mutableListOf<BuildingProject>();
-        var FloorList : MutableList<Floor> =  mutableListOf<Floor>();
     }
 }

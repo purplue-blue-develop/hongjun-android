@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
+import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.New_Edit_Project.NewProjectActivity
 import com.example.building_survey_app.Activities.Original_Project.OriginalProjectActivity
 import com.example.building_survey_app.R
@@ -28,11 +30,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when(v?.id){
             R.id.button_StartNewProject -> {
 
-                val NewProjectIntent = Intent(this,  NewProjectActivity::class.java);
+                val NewProjectIntent = Intent(this,  FlawCheckActivity::class.java);
                 startActivity(NewProjectIntent);
             }
             R.id.button_LoadExistProject -> {
-                val originalProjectIntent = Intent(this, OriginalProjectActivity:: class.java);
+                val originalProjectIntent = Intent(this, FlawListActivity:: class.java);
                 startActivity(originalProjectIntent);
             }
         }

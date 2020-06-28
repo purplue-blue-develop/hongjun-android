@@ -1,6 +1,7 @@
 package com.example.building_survey_app.Activities.FlawList
 
 import android.graphics.Bitmap
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -9,6 +10,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ListView
+import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
 import com.example.building_survey_app.Helper.ExcelHelper
 import com.example.building_survey_app.ListViewFlawItem
 import com.example.building_survey_app.ListViewFlawItemAdapter
@@ -49,6 +51,7 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         listView.adapter = ListViewFlawItemAdapter(this, listItems);
 
         findViewById<Button>(R.id.FlawListSave).setOnClickListener(this);
+        findViewById<Button>(R.id.FlawListAddMore).setOnClickListener(this);
 
     }
 
@@ -57,6 +60,10 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         {
             R.id.FlawListSave->{
                 SaveExcel();
+            }
+            R.id.FlawListAddMore->{
+                val addMoreProject = Intent(this, FlawCheckActivity:: class.java);
+                startActivity(addMoreProject);
             }
         }
     }
