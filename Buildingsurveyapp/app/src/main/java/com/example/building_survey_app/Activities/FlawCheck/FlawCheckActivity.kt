@@ -85,7 +85,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             else {
                 BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
                 findViewById<TextView>(R.id.textViewDisplayNo).text =
-                    BuildingProjectListViewModel.BuildingProjectList[0].flawList.size.toString();
+                    (BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1).toString();
             }
         }
     }
