@@ -43,7 +43,9 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
             var navigateData = intent.extras;
             // 프로젝트 로드로 들어온경우
             if (navigateData != null){
-                loadExcel();
+                var load = navigateData.getString("LOAD");
+                if (!load.isNullOrEmpty())
+                    loadExcel();
             }
         }
 
@@ -139,7 +141,7 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         i = 2;
         for (flaw in flawList) {
             j = 0;
-            row = sheet!!.getRow(i++);
+            row = sheet!!.getRow(i);
 
             row.createCell(j);
             row.getCell(j++)?.setCellValue(" ");
@@ -200,8 +202,8 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
             anchor.setCol1(j);
             anchor.setCol2(++j);
-            anchor.row1 = i-1;
-            anchor.row2 = i;
+            anchor.row1 = i
+            anchor.row2 = i+1;
             drawing.createPicture(anchor, pictureId);
 
 
@@ -216,8 +218,8 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
             anchor.setCol1(j)
             anchor.setCol2(++j)
-            anchor.row1 = i-1;
-            anchor.row2 = i;
+            anchor.row1 = i;
+            anchor.row2 = i+1;
             drawing.createPicture(anchor,pictureId);
 
             i++;
@@ -226,12 +228,12 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         row = sheet.getRow(0);
 
 
-        var widthArray = arrayListOf<Int>(10,20, 25, 40, 40, 40, 40, 25, 25, 40, 25 );
-
-        for ( x in 0 until row.lastCellNum-2)
-        {
-            sheet.setColumnWidth(x, widthArray[x]);
-        }
+//        var widthArray = arrayListOf<Int>(10,20, 25, 40, 40, 40, 40, 25, 25, 40, 25 );
+//
+//        for ( x in 0 until row.lastCellNum-2)
+//        {
+//            sheet.setColumnWidth(x, widthArray[x]);
+//        }
 
         var os = FileOutputStream(file.absolutePath);
         wb?.write(os);
@@ -271,146 +273,20 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
             for (j in 1 .. row.lastCellNum )
             {
                 when(j) {
-                    1-> {
-                        readedFlaw.id = row.getCell(j).stringCellValue.toInt()
-                    }
-                    2->{
-//                        readedFlaw.Floor = row.getCell(j).
-
-                    }
-                    3->
-                    {
-
-                    }
-                    4->
-                    {
-
-                    }
-                    5->
-                    {
-
-                    }
-                    6->
-                    {
-
-                    }
-                    7->
-                    {
-
-                    }
-                    8->{
-
-                    }
-                    9->{
-
-                    }
-                    10->{
-
-                    }
-                    11->{
-
-                    }
+                    1-> readedFlaw.id = row.getCell(j).stringCellValue.toInt()
+                    2-> readedFlaw.Floor = row.getCell(j).stringCellValue
+                    3-> readedFlaw.Name = row.getCell(j).stringCellValue
+                    4-> readedFlaw.FlawCategory = row.getCell(j).stringCellValue
+                    5-> readedFlaw.FlawPos = row.getCell(j).stringCellValue
+                    6-> readedFlaw.Flaw = row.getCell(j).stringCellValue
+                    7-> readedFlaw.FlawLength =  row.getCell(j).stringCellValue.toDoubleOrNull() ?:0.0
+                    8-> readedFlaw.FlawWidth = row.getCell(j).stringCellValue.toDoubleOrNull()?:0.0
+                    10-> readedFlaw.FlawCount = row.getCell(j).stringCellValue.toIntOrNull()?:0
+//                    11-> readedFlaw.capturedPic = row.getCell(j)
+//                    12-> readedFlaw.compareCapturedPic = row.getCell(j)
                 }
             }
         }
-
-
-//
-//        var rowFirst = sheet.getRow(0);
-//        var row = sheet.getRow(i);
-//        var cell: Cell?;
-//
-//        for (title in titleList) {
-//            rowFirst.createCell(j).setCellValue(" ");
-//            cell = row!!.createCell(j++);
-//            cell.setCellValue(title);
-//        }
-//
-//        i = 2;
-//        j = 0;
-//        for (flaw in flawList) {
-//            row = sheet!!.getRow(i++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(" ");
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.id.toString());
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.id.toString());
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.Name);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.FlawCategory);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.FlawPos);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.Flaw);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.FlawLength);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.FlawWidth);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            if (flaw.FlawLength == 0.0 || flaw.FlawWidth == 0.0)
-//                row.getCell(j++)?.setCellValue("-");
-//            else
-//                row.getCell(j++)
-//                    ?.setCellValue(flaw.FlawLength.toString() + " X " + flaw.FlawWidth);
-////            sheet.autoSizeColumn(j++);
-//
-//            row.createCell(j);
-//            row.getCell(j++)?.setCellValue(flaw.FlawCount.toString());
-////            sheet.autoSizeColumn(j++);
-//
-//            var stream = ByteArrayOutputStream();
-//            flaw.capturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            var bytes = stream.toByteArray()
-//            var pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
-//            stream.close();
-//
-//            var drawing = sheet.createDrawingPatriarch() as XSSFDrawing;
-//            var anchor = XSSFClientAnchor();
-//
-//            anchor.setCol1(j);
-//            anchor.setCol2(++j);
-//            anchor.row1 = i-1;
-//            anchor.row2 = i;
-//            drawing.createPicture(anchor, pictureId);
-//
-//
-//            stream = ByteArrayOutputStream();
-//            flaw.capturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
-//            bytes = stream.toByteArray()
-//            pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
-//            stream.close()
-//
-//            drawing = sheet.createDrawingPatriarch() as XSSFDrawing
-//            anchor = XSSFClientAnchor()
-//
-//            anchor.setCol1(j)
-//            anchor.setCol2(++j)
-//            anchor.row1 = i-1;
-//            anchor.row2 = i;
-//            drawing.createPicture(anchor,pictureId);
-//
-//        }
 
     }
 }
