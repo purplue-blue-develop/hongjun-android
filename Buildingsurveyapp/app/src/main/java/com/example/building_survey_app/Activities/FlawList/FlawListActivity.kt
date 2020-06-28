@@ -137,8 +137,8 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         i = 2;
-        j = 0;
         for (flaw in flawList) {
+            j = 0;
             row = sheet!!.getRow(i++);
 
             row.createCell(j);
