@@ -1,6 +1,7 @@
 package com.example.building_survey_app.Activities.FlawCheck
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
@@ -8,6 +9,7 @@ import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.AttributeSet
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
@@ -35,6 +37,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
     var imageFloor : Bitmap? = null;
     var imageCompFloor : Bitmap? = null;
     var isEditMode : Boolean = false;
+    var spinnerCounter : Int = 1;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,25 +47,43 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
         BuildingProjectListViewModel.BuildingProjectList.add(BuildingProject());
+        findViewById<Spinner>(R.id.spinnerFlawCategory).setSelection(Adapter.NO_SELECTION, false)
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                when(parent?.getItemAtPosition(position))
-                {
-                    "균열"->{
-                        findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
-                            ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayA, R.layout.support_simple_spinner_dropdown_item);
-                        findViewById<Spinner>(R.id.spinnerFlaw).adapter =
-                            ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayA, R.layout.support_simple_spinner_dropdown_item );
-                    }
-                    "열화"->{
-                        findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
-                            ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayB, R.layout.support_simple_spinner_dropdown_item );
-                        findViewById<Spinner>(R.id.spinnerFlaw).adapter =
-                            ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayB, R.layout.support_simple_spinner_dropdown_item );
+                if (++spinnerCounter > 1) {
+                    when (parent?.getItemAtPosition(position)) {
+                        "균열" -> {
+                            findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
+                                ArrayAdapter.createFromResource(
+                                    applicationContext,
+                                    R.array.flawPosItemArrayA,
+                                    R.layout.support_simple_spinner_dropdown_item
+                                );
+                            findViewById<Spinner>(R.id.spinnerFlaw).adapter =
+                                ArrayAdapter.createFromResource(
+                                    applicationContext,
+                                    R.array.flawArrayA,
+                                    R.layout.support_simple_spinner_dropdown_item
+                                );
+                        }
+                        "열화" -> {
+                            findViewById<Spinner>(R.id.spinnerFlawPos).adapter =
+                                ArrayAdapter.createFromResource(
+                                    applicationContext,
+                                    R.array.flawPosItemArrayB,
+                                    R.layout.support_simple_spinner_dropdown_item
+                                );
+                            findViewById<Spinner>(R.id.spinnerFlaw).adapter =
+                                ArrayAdapter.createFromResource(
+                                    applicationContext,
+                                    R.array.flawArrayB,
+                                    R.layout.support_simple_spinner_dropdown_item
+                                );
+                        }
                     }
                 }
             }
@@ -94,6 +115,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 else {
                     loadExistData(flaw)
+                    spinnerCounter = 0
                     isEditMode = true;
                     findViewById<Button>(R.id.buttonSaveFlawModel).text = "수정";
                 };
@@ -106,27 +128,46 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    override fun onCreateView(name: String, context: Context, attrs: AttributeSet): View? {
+        return super.onCreateView(name, context, attrs)
+    }
+
     fun loadExistData(flaw : FlawModel)
     {
         findViewById<TextView>(R.id.textViewDisplayNo).text = flaw.id.toString();
 
         var adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawCategoryItemArray, R.layout.support_simple_spinner_dropdown_item );
-        findViewById<Spinner>(R.id.spinnerFlawCategory).setSelection(adapter.getPosition(flaw.FlawCategory));
+        findViewById<Spinner>(R.id.spinnerFlawCategory).setSelection(adapter.getPosition(flaw.FlawCategory), false);
         if ( flaw?.FlawCategory == "균열")
         {
             adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayA, R.layout.support_simple_spinner_dropdown_item);
+            findViewById<Spinner>(R.id.spinnerFlawPos).adapter = adapter;
             findViewById<Spinner>(R.id.spinnerFlawPos).setSelection(adapter.getPosition(flaw.FlawPos));
             adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayA, R.layout.support_simple_spinner_dropdown_item );
+            findViewById<Spinner>(R.id.spinnerFlaw).adapter = adapter;
             findViewById<Spinner>(R.id.spinnerFlaw).setSelection(adapter.getPosition(flaw.Flaw));
         }
         else
         {
             adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawPosItemArrayB, R.layout.support_simple_spinner_dropdown_item);
+            findViewById<Spinner>(R.id.spinnerFlawPos).adapter = adapter;
             findViewById<Spinner>(R.id.spinnerFlawPos).setSelection(adapter.getPosition(flaw.FlawPos));
             adapter = ArrayAdapter.createFromResource(applicationContext, R.array.flawArrayB, R.layout.support_simple_spinner_dropdown_item );
+            findViewById<Spinner>(R.id.spinnerFlaw).adapter = adapter;
             findViewById<Spinner>(R.id.spinnerFlaw).setSelection(adapter.getPosition(flaw.Flaw));
         }
+        var floorList = BuildingProjectListViewModel.BuildingProjectList[0].floorList;
+        var floorListArray = mutableListOf<String>();
+        for( floor in floorList)
+        {
+            floorListArray.add(floor.Name);
+        }
 
+        val flooradapter = ArrayAdapter(applicationContext, R.layout.support_simple_spinner_dropdown_item, floorListArray);
+
+        val floorView = findViewById<Spinner>(R.id.spinnerFloor)
+        floorView.adapter = flooradapter
+        floorView.setSelection(flooradapter.getPosition(flaw.Floor))
         findViewById<EditText>(R.id.editTextName).setText( flaw.Name.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
@@ -166,6 +207,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
                 newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
                 newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
+                newFlaw.Floor = findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
 
                 if( findViewById<EditText>(R.id.editTextFlawWidth).text.toString().isNullOrEmpty())
                     newFlaw.FlawWidth = 0.0;
