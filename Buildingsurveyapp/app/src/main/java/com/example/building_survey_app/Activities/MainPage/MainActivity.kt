@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.button_LoadExistProject -> {
                 val originalProjectIntent = Intent(this, FlawListActivity:: class.java);
+                originalProjectIntent.putExtra("LOAD", "LOAD");
                 startActivity(originalProjectIntent);
             }
         }
