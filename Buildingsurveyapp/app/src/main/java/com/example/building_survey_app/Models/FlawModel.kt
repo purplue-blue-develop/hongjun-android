@@ -6,6 +6,7 @@ import java.io.Serializable
 class FlawModel : Serializable {
     var id : Int = 0
     var Name : String =""
+    var Floor : String =""
     var FlawCategory : String =""
     var FlawPos : String =""
     var Flaw : String=""
