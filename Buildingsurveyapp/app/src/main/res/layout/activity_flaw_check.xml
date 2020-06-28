@@ -309,15 +309,15 @@
                 app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount"
                 app:srcCompat="@drawable/ic_launcher_background" />
 
-            <ImageView
-                android:id="@+id/picturecompimageView"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginRight="30dp"
-                app:layout_constraintBottom_toTopOf="@+id/buttonSaveFlawModel"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount"
-                app:srcCompat="@drawable/ic_launcher_background" />
+        <ImageView
+            android:id="@+id/picturecompimageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintBottom_toTopOf="@+id/buttonSaveFlawModel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount"
+            app:srcCompat="@drawable/ic_launcher_background" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
