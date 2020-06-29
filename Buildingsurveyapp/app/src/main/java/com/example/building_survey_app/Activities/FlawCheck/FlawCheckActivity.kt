@@ -121,7 +121,11 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 };
             }
             else {
-                BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
+                if ( BuildingProjectListViewModel.BuildingProjectList == null ||
+                    BuildingProjectListViewModel.BuildingProjectList.size == 0)
+                {
+                    BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
+                }
                 findViewById<TextView>(R.id.textViewDisplayNo).text =
                     (BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1).toString();
             }
@@ -168,7 +172,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         val floorView = findViewById<Spinner>(R.id.spinnerFloor)
         floorView.adapter = flooradapter
         floorView.setSelection(flooradapter.getPosition(flaw.Floor))
-        findViewById<EditText>(R.id.editTextName).setText( flaw.Name.toString(), TextView.BufferType.EDITABLE);
+        findViewById<EditText>(R.id.editTextName).setText( flaw.Name, TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
@@ -189,37 +193,25 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 startActivityForResult(intent, POPUP_FLOORADD);
             }
             R.id.buttonSaveFlawModel-> {
-//                try {
-//                    var flawModelData =
-//                        ObjectOutputStream(FileOutputStream("buildingSurveyApp.data"))
-//                    flawModelData.writeObject(
-//                        BuildingProjectListViewModel.BuildingProjectList?.get(
-//                            0
-//                        )
-//                    );
-//                    flawModelData.close();
-//                } catch (e: Exception) {
-//                    e.printStackTrace();
-//                }
+
                 var project = BuildingProjectListViewModel.BuildingProjectList?.get(0);
                 var newFlaw = FlawModel();
+
+                newFlaw.id = findViewById<TextView>(R.id.textViewDisplayNo).text.toString().toInt();
                 newFlaw.Name = findViewById<EditText>( R.id.editTextName ).text.toString();
                 newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
                 newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
                 newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
-                newFlaw.Floor = findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
+                if ( findViewById<Spinner>(R.id.spinnerFloor).selectedItemPosition == -1) {
+                    Toast.makeText(this, "층을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                    return;
+                }
+                else
+                    newFlaw.Floor = findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
 
-                if( findViewById<EditText>(R.id.editTextFlawWidth).text.toString().isNullOrEmpty())
-                    newFlaw.FlawWidth = 0.0;
-                 else newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDouble()
-
-                if ( findViewById<EditText>(R.id.editTextFlawCount).text.toString().isNullOrEmpty())
-                    newFlaw.FlawCount = 0;
-                else newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toInt();
-
-                if ( findViewById<EditText>(R.id.editTextFlawLength).text.toString().isNullOrEmpty())
-                    newFlaw.FlawLength =0.0;
-                else newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDouble();
+                newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDoubleOrNull()?:0.0
+                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDoubleOrNull()?:0.0;
+                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toIntOrNull()?:0;
 
                 newFlaw.capturedPic = imageFloor;
                 newFlaw.compareCapturedPic = imageCompFloor;

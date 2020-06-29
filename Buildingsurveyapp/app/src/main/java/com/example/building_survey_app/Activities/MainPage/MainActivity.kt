@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.button_StartNewProject -> {
-
                 val NewProjectIntent = Intent(this,  FlawCheckActivity::class.java);
                 startActivity(NewProjectIntent);
             }

@@ -47,17 +47,27 @@ class PopupAddingFloorList : AppCompatActivity(), View.OnClickListener {
             {
                 var project : BuildingProject = BuildingProjectListViewModel.BuildingProjectList?.get(0);
                 val floorName  = findViewById<EditText>(R.id.editTextFloorName).text.toString();
-                project.floorList.add(Floor(floorName));
 
                 var floorNames = mutableListOf<String>();
                 for (floor in project.floorList)
-            {
-                if(floorNames.contains(floor.Name)){
-                    Toast.makeText(this, "floor already exist", Toast.LENGTH_SHORT).show()
-                } else{
+                {
                     floorNames.add(floor.Name);
                 }
-            }
+
+                if(floorNames.contains(floorName))
+                {
+                    Toast.makeText(this, "층이 이미 존재합니다.", Toast.LENGTH_SHORT).show()
+                }
+                else if ( floorName.isNullOrEmpty())
+                {
+                    Toast.makeText(this, "층은 공백이 될 수 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+                else
+                {
+                    floorNames.add(floorName);
+                    project.floorList.add(Floor(floorName))
+                };
+
 
                 val floorListView = findViewById<ListView>(R.id.ListViewShowFloorList)
                 val adapter = ArrayAdapter(applicationContext, android.R.layout.simple_list_item_1,floorNames)

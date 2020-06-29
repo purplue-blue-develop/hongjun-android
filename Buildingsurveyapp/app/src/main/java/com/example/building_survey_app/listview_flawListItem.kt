@@ -58,7 +58,7 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
         view.findViewById<Button>(R.id.flawListViewItemEditButton).setOnClickListener(View.OnClickListener() {
             val id = cur.ID;
             val intent = Intent(ctx, FlawCheckActivity::class.java);
-            intent.putExtra("ID", id.toString());
+            intent.putExtra("ID", id);
             ctx.startActivity(intent);
         });
 
