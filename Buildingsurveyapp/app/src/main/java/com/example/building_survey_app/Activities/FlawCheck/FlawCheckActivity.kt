@@ -6,6 +6,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -176,7 +177,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
-
+        findViewById<TextView>(R.id.project_name).setText(BuildingProjectListViewModel.BuildingProjectList[0].projectName);
         findViewById<ImageView>(R.id.pictureimageView). setImageBitmap(flaw.capturedPic);
         findViewById<ImageView>(R.id.picturecompimageView). setImageBitmap(flaw.compareCapturedPic);
         imageFloor = flaw.capturedPic;
