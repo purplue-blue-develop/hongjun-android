@@ -2,32 +2,23 @@ package com.example.building_survey_app.Activities.FlawCheck
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.AttributeSet
 import android.view.View
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
-import androidx.core.view.drawToBitmap
+import androidx.appcompat.app.AppCompatActivity
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.Models.FlawModel
-import com.example.building_survey_app.Models.Floor
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
 import kotlinx.android.synthetic.main.activity_flaw_check.*
-
-
-import java.io.FileOutputStream
-import java.io.ObjectOutputStream
-import java.lang.Exception
-import java.util.jar.Attributes
+import java.io.File
 
 const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
@@ -104,28 +95,45 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         if (savedInstanceState == null) {
             var navigateData = intent.extras;
             // 수정 으로 들어온 경우
-            if (navigateData != null){
-                var id = navigateData.getInt("ID");
-                var flaw = BuildingProjectListViewModel.BuildingProjectList[0].flawList.find{
-                        flawModel->flawModel.id==id
-                }
-                if (flaw == null)
-                {
+            if (navigateData != null) {
+//                var id = navigateData.getInt("ID");
+                var idobj = navigateData.get("ID")
+                if (idobj != null) {
+                    var id = idobj.toString().toInt()
+                    var flaw =
+                        BuildingProjectListViewModel.BuildingProjectList[0].flawList.find { flawModel ->
+                            flawModel.id == id
+                        }
+                    if (flaw == null) {
 
+                    } else {
+                        loadExistData(flaw)
+                        spinnerCounter = 0
+                        isEditMode = true;
+                        findViewById<Button>(R.id.buttonSaveFlawModel).text = "수정";
+                    };
+                } else if (navigateData?.get("ProjectName") != null) {
+                    var projectName = navigateData.getString("ProjectName");
+                    if (projectName != null) {
+                        if (BuildingProjectListViewModel.BuildingProjectList != null
+                            || BuildingProjectListViewModel.BuildingProjectList.size > 0
+                        ) {
+                            BuildingProjectListViewModel.BuildingProjectList.clear()
+                        }
+
+                        var newBP = BuildingProject();
+                        newBP.projectName = projectName;
+                        BuildingProjectListViewModel.BuildingProjectList?.add(newBP);
+                        findViewById<TextView>(R.id.textViewDisplayNo).text =
+                            (BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1).toString();
+                    }
+                } else {
+                    findViewById<TextView>(R.id.textViewDisplayNo).text =
+                        (BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1).toString();
                 }
-                else {
-                    loadExistData(flaw)
-                    spinnerCounter = 0
-                    isEditMode = true;
-                    findViewById<Button>(R.id.buttonSaveFlawModel).text = "수정";
-                };
             }
-            else {
-                if ( BuildingProjectListViewModel.BuildingProjectList == null ||
-                    BuildingProjectListViewModel.BuildingProjectList.size == 0)
-                {
-                    BuildingProjectListViewModel.BuildingProjectList?.add(BuildingProject());
-                }
+            else
+            {
                 findViewById<TextView>(R.id.textViewDisplayNo).text =
                     (BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1).toString();
             }
@@ -164,6 +172,8 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         var floorListArray = mutableListOf<String>();
         for( floor in floorList)
         {
+            if ( floor.Name.isNullOrEmpty())
+                continue
             floorListArray.add(floor.Name);
         }
 
@@ -177,10 +187,14 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
 
-        findViewById<ImageView>(R.id.pictureimageView). setImageBitmap(flaw.capturedPic);
-        findViewById<ImageView>(R.id.picturecompimageView). setImageBitmap(flaw.compareCapturedPic);
-        imageFloor = flaw.capturedPic;
-        imageCompFloor = flaw.compareCapturedPic;
+        if (!flaw.capturedPicName.isNullOrEmpty()) {
+            findViewById<ImageView>(R.id.pictureimageView).setImageBitmap(flaw.capturedPic);
+            imageFloor = flaw.capturedPic;
+        }
+        if (!flaw.capturedPicName.isNullOrEmpty()) {
+            findViewById<ImageView>(R.id.picturecompimageView).setImageBitmap(flaw.compareCapturedPic);
+            imageCompFloor = flaw.compareCapturedPic;
+        }
     }
 
     override fun onClick(v: View?) {
@@ -259,6 +273,36 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 if(resultCode == Activity.RESULT_OK){
                     imageFloor = data?.extras?.get("data") as Bitmap
                     pictureimageView.setImageBitmap(imageFloor)
+
+                    var document = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+                    var allFiles = document!!.listFiles()
+                    var needToCreateFolder = true
+
+                    for (file in allFiles)
+                    {
+                        if (file.isDirectory)
+                        {
+                            if (
+                                file.nameWithoutExtension == BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                            )
+                                needToCreateFolder = false
+                        }
+                    }
+                    if ( needToCreateFolder ) {
+                        var ff = File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                        )
+                        ff.mkdir()
+                    }
+
+                    var file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                        BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/" +
+                                findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString() + "_"
+                                +findViewById<TextView>(R.id.textViewDisplayNo).toString() + ".jpg"
+                    )
+                    file.createNewFile()
+
                 } else{
                     super.onActivityResult(requestCode, resultCode, data)
                 }
@@ -269,6 +313,32 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 if(resultCode == Activity.RESULT_OK){
                     imageCompFloor = data?.extras?.get("data") as Bitmap
                     picturecompimageView.setImageBitmap(imageCompFloor)
+
+                    var document = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+                    var allFiles = document!!.listFiles()
+                    var needToCreateFolder = true
+
+                    for (file in allFiles)
+                    {
+                        if (file.isDirectory)
+                        {
+                            if (
+                                file.nameWithoutExtension == BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                            )
+                                needToCreateFolder = false
+                        }
+                    }
+                    if ( needToCreateFolder ) {
+                        var ff = File(
+                            getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                            BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                        )
+                        ff.mkdir()
+                    }
+
+                    var file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                        BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/결함정보.xlsx")
+
                 } else{
                     super.onActivityResult(requestCode, resultCode, data)
                 }

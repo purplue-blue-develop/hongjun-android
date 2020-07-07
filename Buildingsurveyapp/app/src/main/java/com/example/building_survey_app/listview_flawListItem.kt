@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
 import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
+import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
 
 class listview_flawListItem : AppCompatActivity() {
@@ -64,9 +65,20 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
 
         view.findViewById<Button>(R.id.flawListViewItemRemoveButton).setOnClickListener(View.OnClickListener() {
             val id = cur.ID;
-            val flaw =
+
+            var flaw =
                 BuildingProjectListViewModel.BuildingProjectList[0].flawList.find { f -> f.id == id };
-            BuildingProjectListViewModel.BuildingProjectList[0].flawList.remove(flaw);
+
+            flaw?.Name = ""
+            flaw?.Floor = ""
+            flaw?.FlawCategory =""
+            flaw?.FlawPos =""
+            flaw?.Flaw = ""
+            flaw?.FlawWidth = 0.0
+            flaw?.FlawLength = 0.0
+            flaw?.FlawCount =0
+            flaw?.capturedPic = null
+            flaw?.compareCapturedPic = null
             ctx.startActivity(Intent(ctx, FlawListActivity::class.java));
         });
 

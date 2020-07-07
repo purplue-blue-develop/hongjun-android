@@ -15,4 +15,7 @@ class FlawModel : Serializable {
     var FlawCount : Int = 0
     var capturedPic : Bitmap? = null
     var compareCapturedPic : Bitmap? = null
+
+    var capturedPicName : String =""
+    var compareCapturedPicName :String =""
 }

@@ -29,12 +29,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.button_StartNewProject -> {
-                val NewProjectIntent = Intent(this,  FlawCheckActivity::class.java);
+                val NewProjectIntent = Intent(this,  NewProjectActivity::class.java);
                 startActivity(NewProjectIntent);
             }
             R.id.button_LoadExistProject -> {
-                val originalProjectIntent = Intent(this, FlawListActivity:: class.java);
-                originalProjectIntent.putExtra("LOAD", "LOAD");
+//                val originalProjectIntent = Intent(this, FlawListActivity:: class.java);
+//                originalProjectIntent.putExtra("LOAD", "LOAD");
+//                startActivity(originalProjectIntent);
+
+                val originalProjectIntent = Intent(this, OriginalProjectActivity:: class.java);
+//                originalProjectIntent.putExtra("LOAD", "LOAD");
+//                startActivity(originalProjectIntent);
                 startActivity(originalProjectIntent);
             }
         }

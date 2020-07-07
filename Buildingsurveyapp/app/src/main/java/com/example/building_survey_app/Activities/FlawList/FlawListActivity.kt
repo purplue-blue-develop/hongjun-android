@@ -12,6 +12,7 @@ import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
+import com.example.building_survey_app.Activities.MainPage.MainActivity
 import com.example.building_survey_app.ListViewFlawItem
 import com.example.building_survey_app.ListViewFlawItemAdapter
 import com.example.building_survey_app.Models.BuildingProject
@@ -37,9 +38,16 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
             var navigateData = intent.extras;
             // 프로젝트 로드로 들어온경우
             if (navigateData != null){
-                var load = navigateData.getString("LOAD");
-                if (!load.isNullOrEmpty())
-                    loadExcel();
+                var loadProjectName = navigateData.getString("ProjectName");
+                if (!loadProjectName.isNullOrEmpty()) {
+                    if ( BuildingProjectListViewModel.BuildingProjectList.size > 0 )
+                        BuildingProjectListViewModel.BuildingProjectList.clear()
+
+                    var bp = BuildingProject()
+                    bp.projectName = loadProjectName
+                    BuildingProjectListViewModel.BuildingProjectList.add(bp)
+                    loadExcel(loadProjectName)
+                }
             }
         }
 
@@ -59,20 +67,24 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         var listView = findViewById<View>(R.id.TotalFlawList) as ListView;
         listView.adapter = ListViewFlawItemAdapter(this, listItems);
 
+        findViewById<Button>(R.id.goToHomeFromFlawList).setOnClickListener(this)
         findViewById<Button>(R.id.FlawListSave).setOnClickListener(this);
         findViewById<Button>(R.id.FlawListAddMore).setOnClickListener(this);
     }
 
-
     override fun onBackPressed() {
         Toast.makeText(this, "지원하지 않습니다.", Toast.LENGTH_SHORT).show()
-
         return;
     }
 
     override fun onClick(v: View?) {
         when(v?.id)
         {
+            R.id.goToHomeFromFlawList->{
+                BuildingProjectListViewModel.BuildingProjectList.clear()
+                var homeIntent = Intent(this, MainActivity::class.java)
+                startActivity(homeIntent)
+            }
             R.id.FlawListSave->{
                 SaveExcel();
             }
@@ -85,131 +97,155 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
     fun SaveExcel()
     {
-        var file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "결함정보.xlsx");
 
         try {
-        var wb: XSSFWorkbook? =null
-        var sheet: XSSFSheet? =null
+            var wb: XSSFWorkbook? =null
+            var sheet: XSSFSheet? =null
 
-            wb = XSSFWorkbook()
-            wb.createSheet();
+                wb = XSSFWorkbook()
+                wb.createSheet();
 
-        sheet = wb?.getSheetAt(0);
+            sheet = wb?.getSheetAt(0);
 
-        var drawing = sheet.createDrawingPatriarch() as XSSFDrawing;
-        var flawList = BuildingProjectListViewModel.BuildingProjectList[0].flawList;
+            var drawing = sheet.createDrawingPatriarch() as XSSFDrawing;
+            var flawList = BuildingProjectListViewModel.BuildingProjectList[0].flawList;
 
-        // 개행, 테이블 타이틀 + flaw List 크기 만큼 행 만들기
-        for (x in 0..1 + flawList.size) {
-            sheet?.createRow(x);
-        }
+            // 개행, 테이블 타이틀 + flaw List 크기 만큼 행 만들기
+            for (x in 0..1 + flawList.size) {
+                sheet?.createRow(x);
+            }
 
-        //테이블 타이틀 만들기
-        // 개행, ID, 층수, 실명, 결함유형, 결함위치, 결함종류, 결함길이, 결함너비, 결함개수, 사진, 비교사진 ( 11개)
-        var titleList = arrayListOf<String>(
-            " ", "ID", "STORY", "실명",
-            "결함유형", "결함위치", "결함종류", "결함길이", "결함너비", "결함크기", "결함개수", "사진", "비교사진"
-        );
+            //테이블 타이틀 만들기
+            // 개행, ID, 층수, 실명, 결함유형, 결함위치, 결함종류, 결함길이, 결함너비, 결함개수, 사진, 비교사진 ( 11개)
+            var titleList = arrayListOf<String>(
+                " ", "ID", "STORY", "실명",
+                "결함유형", "결함위치", "결함종류", "결함길이", "결함너비", "결함크기", "결함개수", "사진", "비교사진"
+            );
 
-        var i = 1;
-        var j = 0;
-        var rowFirst = sheet.getRow(0);
-        var row = sheet.getRow(i);
-        var cell: Cell?;
+            var i = 1;
+            var j = 0;
+            var rowFirst = sheet.getRow(0);
+            var row = sheet.getRow(i);
+            var cell: Cell?;
 
-        for (title in titleList) {
-            rowFirst.createCell(j).setCellValue(" ");
-            cell = row!!.createCell(j++);
-            cell.setCellValue(title);
-        }
+            for (title in titleList) {
+                rowFirst.createCell(j).setCellValue(" ");
+                cell = row!!.createCell(j++);
+                cell.setCellValue(title);
+            }
 
-        i = 2;
-        for (flaw in flawList) {
-            j = 0;
-            row = sheet!!.getRow(i);
+            i = 2;
+            for (flaw in flawList) {
+                j = 0;
+                row = sheet!!.getRow(i);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(" ");
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(" ");
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.id.toString());
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.id.toString());
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.Floor);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.Floor);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.Name);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.Name);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.FlawCategory);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.FlawCategory);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.FlawPos);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.FlawPos);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.Flaw);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.Flaw);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.FlawLength);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.FlawLength);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.FlawWidth);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.FlawWidth);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            if (flaw.FlawLength == 0.0 || flaw.FlawWidth == 0.0)
-                row.getCell(j++)?.setCellValue("-");
-            else
-                row.getCell(j++)
-                    ?.setCellValue(flaw.FlawLength.toString() + " X " + flaw.FlawWidth);
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                if (flaw.FlawLength == 0.0 || flaw.FlawWidth == 0.0)
+                    row.getCell(j++)?.setCellValue("-");
+                else
+                    row.getCell(j++)
+                        ?.setCellValue(flaw.FlawLength.toString() + " X " + flaw.FlawWidth);
+    //            sheet.autoSizeColumn(j++);
 
-            row.createCell(j);
-            row.getCell(j++)?.setCellValue(flaw.FlawCount.toString());
-//            sheet.autoSizeColumn(j++);
+                row.createCell(j);
+                row.getCell(j++)?.setCellValue(flaw.FlawCount.toString());
+    //            sheet.autoSizeColumn(j++);
 
-            var stream = ByteArrayOutputStream();
-            flaw.capturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            var bytes = stream.toByteArray()
-            var pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
-            stream.close();
+                var stream = ByteArrayOutputStream();
+                flaw.capturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                var bytes = stream.toByteArray()
+                var pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
+                stream.close();
 
-            var anchor = XSSFClientAnchor();
+                var anchor = XSSFClientAnchor();
 
-            anchor.setCol1(j);
-            anchor.setCol2(++j);
-            anchor.row1 = i
-            anchor.row2 = i+1;
-            var pic = drawing.createPicture(anchor, pictureId);
+                anchor.setCol1(j);
+                anchor.setCol2(++j);
+                anchor.row1 = i
+                anchor.row2 = i+1;
+                var pic = drawing.createPicture(anchor, pictureId);
 
 
-            stream = ByteArrayOutputStream();
-            flaw.compareCapturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            bytes = stream.toByteArray()
-            pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
-            stream.close()
+                stream = ByteArrayOutputStream();
+                flaw.compareCapturedPic?.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                bytes = stream.toByteArray()
+                pictureId = wb.addPicture(bytes, Workbook.PICTURE_TYPE_JPEG)
+                stream.close()
 
-            anchor = XSSFClientAnchor()
+                anchor = XSSFClientAnchor()
 
-            anchor.setCol1(j)
-            anchor.setCol2(++j)
-            anchor.row1 = i;
-            anchor.row2 = i+1;
-            pic = drawing.createPicture(anchor,pictureId);
+                anchor.setCol1(j)
+                anchor.setCol2(++j)
+                anchor.row1 = i;
+                anchor.row2 = i+1;
+                pic = drawing.createPicture(anchor,pictureId);
 
-            i++;
-        }
+                i++;
+            }
 
-        var os = FileOutputStream(file.absolutePath);
-        wb?.write(os)
+            var document = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+            var allFiles = document!!.listFiles()
+            var needToCreateFolder = true
+
+            for (file in allFiles)
+            {
+                if (file.isDirectory)
+                {
+                    if (
+                        file.nameWithoutExtension == BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                    )
+                        needToCreateFolder = false
+                }
+            }
+            if ( needToCreateFolder ) {
+                var ff = File(
+                    getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                    BuildingProjectListViewModel.BuildingProjectList[0].projectName
+                )
+                ff.mkdir()
+            }
+            var file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/결함정보.xlsx")
+
+            var os = FileOutputStream(file.absolutePath);
+            wb?.write(os)
+            Toast.makeText(this, "저장이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
         catch (e : Exception)
         {
@@ -217,9 +253,9 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         };
     }
 
-    private fun loadExcel()
+    private fun loadExcel(projectName : String)
     {
-        var file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "결함정보.xlsx");
+        var file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), "/" + projectName + "/"+ "결함정보.xlsx");
 
         var wb: XSSFWorkbook? =null
         var sheet: XSSFSheet? = null
@@ -296,12 +332,6 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
                 flawList[i/2].compareCapturedPic = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
             i++;
         }
-//        11-> readedFlaw.capturedPic = row.getCell(j).stringCellValue
-//        12-> readedFlaw.compareCapturedPic = row.getCell(j)
-
-
-
-
 
     }
 }

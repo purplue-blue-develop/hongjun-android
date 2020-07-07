@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.building_survey_app">
+
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
@@ -15,15 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".listview_flawListItem"></activity>
+        <activity android:name=".listview_floorListItem"></activity>
+        <activity android:name=".listview_flawListItem" />
         <activity android:name=".Activities.FlawList.FlawListActivity" />
         <activity android:name=".Activities.Popups.PopupAddingFloorList" />
         <activity android:name=".Activities.FlawCheck.FlawCheckActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".Activities.Popups.PopupShowingProjectList"
@@ -31,13 +35,11 @@
         <activity android:name=".Activities.New_Edit_Project.NewProjectActivity" />
         <activity android:name=".Activities.Original_Project.OriginalProjectActivity" />
         <activity android:name=".Activities.MainPage.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
