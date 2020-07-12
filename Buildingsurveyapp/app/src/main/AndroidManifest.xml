@@ -19,17 +19,17 @@
         android:theme="@style/AppTheme">
 
         <provider
-        android:name="androidx.core.content.FileProvider"
-        android:authorities="com.example.building_survey_app.fileProvider"
-        android:exported="false"
-        android:grantUriPermissions="true"
-            tools:replace="android:authorities" >
-        <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths" />
-    </provider>
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.building_survey_app.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-        <activity android:name=".listview_floorListItem"></activity>
+        <activity android:name=".listview_floorListItem" />
         <activity android:name=".listview_flawListItem" />
         <activity android:name=".Activities.FlawList.FlawListActivity" />
         <activity android:name=".Activities.Popups.PopupAddingFloorList" />
@@ -51,6 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".Activities.Popups.PopupFlawSpinnerCustomUserInput"/>
     </application>
 
 </manifest>

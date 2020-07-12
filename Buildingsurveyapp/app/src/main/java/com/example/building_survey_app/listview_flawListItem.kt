@@ -1,6 +1,8 @@
 package com.example.building_survey_app
 
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import androidx.appcompat.app.AppCompatActivity
@@ -8,10 +10,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
@@ -60,23 +60,40 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
         });
 
         view.findViewById<Button>(R.id.flawListViewItemRemoveButton).setOnClickListener(View.OnClickListener() {
-            val id = cur.ID;
 
+
+            val id = cur.ID;
+            var delete = false;
             var flaw =
                 BuildingProjectListViewModel.BuildingProjectList[0].flawList.find { f -> f.id == id };
 
-            flaw?.Name = ""
-            flaw?.FlawCategory =""
-            flaw?.FlawPos =""
-            flaw?.Flaw = ""
-            flaw?.FlawWidth = 0.0
-            flaw?.FlawLength = 0.0
-            flaw?.FlawCount =0
-            flaw?.capturedPic = null
-            flaw?.compareCapturedPic = null
-            flaw?.compareCapturedPicName = ""
-            flaw?.capturedPicName = ""
-            ctx.startActivity(Intent(ctx, FlawListActivity::class.java));
+            var alertDialog = AlertDialog.Builder(ctx).setMessage(flaw?.Floor +"_" + flaw?.idBasedFloor + "를 삭제 하시겠습니까?")
+                .setCancelable(false).setPositiveButton("확인") {
+                    dialog, which ->
+                    delete = true
+                    flaw?.Name = ""
+                    flaw?.FlawCategory = ""
+                    flaw?.FlawPos = ""
+                    flaw?.Flaw = ""
+                    flaw?.FlawWidth = 0.0
+                    flaw?.FlawLength = 0
+                    flaw?.FlawCount = 0
+                    flaw?.capturedPic = null
+                    flaw?.compareCapturedPic = null
+                    flaw?.compareCapturedPicName = ""
+                    flaw?.capturedPicName = ""
+
+                    var intent = Intent(ctx, FlawListActivity::class.java)
+                    intent.putExtra("ID", flaw?.id)
+                    ctx.startActivity(intent)
+                    Toast.makeText(ctx, "삭제되었습니다.", Toast.LENGTH_SHORT).show()
+
+                }.setNegativeButton("취소"){
+                    dialog, which ->
+                }.create()
+
+                alertDialog.show()
+
         });
 
         return view;
@@ -85,9 +102,13 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
         return data[position]
     }
     override fun getItemId(position: Int): Long {
-        return position.toLong();
+        return position.toLong()
     }
     override fun getCount(): Int {
-        return data.size;
+        return data.size
+    }
+    fun getItems() : ArrayList<ListViewFlawItem>
+    {
+        return data
     }
 }

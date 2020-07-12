@@ -13,13 +13,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Layout
 import android.util.AttributeSet
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.core.content.FileProvider
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
+import com.example.building_survey_app.Activities.Popups.PopupFlawSpinnerCustomUserInput
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.R
@@ -65,6 +69,8 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<ImageButton>(R.id.flawCountDownButton).setOnClickListener(this)
 
         BuildingProjectListViewModel.BuildingProjectList.add(BuildingProject());
+
+        // <editor-fold desc="스피너변환">
         findViewById<Spinner>(R.id.spinnerFlawCategory).setSelection(Adapter.NO_SELECTION, false)
         findViewById<Spinner>(R.id.spinnerFlawCategory).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
 
@@ -102,10 +108,67 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                                     android.R.layout.simple_spinner_item
                                 );
                         }
+                        "직접입력"->{
+
+//                            var popup = layoutInflater.inflate(R.layout.activity_popup_flaw_spinner_custom_user_input, null)
+//
+//                            if ( popup == null )
+//                                return;
+//                            var popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true)
+//                            popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0)
+//
+//                            var rl = findViewById<ScrollView>(R.id.activityFlawCheck)
+//                            rl.alpha = 0.4f
+                        }
                     }
                 }
             }
         }
+        findViewById<Spinner>(R.id.spinnerFlawPos).setSelection(Adapter.NO_SELECTION, false)
+        findViewById<Spinner>(R.id.spinnerFlawPos).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (parent?.getItemAtPosition(position)) {
+                    "직접입력"->{
+//                        var popup = layoutInflater.inflate(R.layout.activity_popup_flaw_spinner_custom_user_input, null)
+//
+//                        if ( popup == null )
+//                            return;
+//                        var popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true)
+//                        popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0)
+//
+//                        var rl = findViewById<ScrollView>(R.id.activityFlawCheck)
+//                        rl.alpha = 0.4f
+                    }
+                }
+            }
+        }
+        findViewById<Spinner>(R.id.spinnerFlaw).setSelection(Adapter.NO_SELECTION, false)
+        findViewById<Spinner>(R.id.spinnerFlaw).onItemSelectedListener =  object: AdapterView.OnItemSelectedListener{
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when (parent?.getItemAtPosition(position)) {
+                    "직접입력"->{
+//                        var popup = layoutInflater.inflate(R.layout.activity_popup_flaw_spinner_custom_user_input, null)
+//
+//                        if ( popup == null )
+//                            return;
+//                        var popupWindow = PopupWindow(popup, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true)
+//                        popupWindow.showAtLocation(view, Gravity.CENTER, 0 , 0)
+//
+//                        var rl = findViewById<ScrollView>(R.id.activityFlawCheck)
+//                        rl.alpha = 0.4f
+                    }
+                }
+            }
+        }
+        // </editor-fold>
 
         var floorList = BuildingProjectListViewModel.BuildingProjectList[0].floorList;
         var floorListArray = mutableListOf<String>();
@@ -136,7 +199,9 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
 
                     } else {
                         loadExistData(flaw)
-                        spinnerCounter = 0
+
+                        if ( flaw.FlawCategory == "열화")
+                            spinnerCounter = 0
                         isEditMode = true;
                         EditModeID = id
                         findViewById<Button>(R.id.buttonSaveFlawModel).text = "수정";
@@ -314,8 +379,8 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     newFlaw.Floor = findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
 
                 newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDoubleOrNull()?:0.0
-                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDoubleOrNull()?:0.0;
-                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toIntOrNull()?:0;
+                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toIntOrNull()?:0
+                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toIntOrNull()?:0
 
                 newFlaw.capturedPic = imageFloor;
                 newFlaw.compareCapturedPic = imageCompFloor;
@@ -371,6 +436,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
 
 
                 var intent = Intent(this, FlawListActivity::class.java);
+                intent.putExtra("ID", newFlaw.id)
                 startActivity(intent);
             }
             R.id.buttonTakeAPhoto ->
@@ -437,17 +503,15 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.flawLengthUpButton->
             {
-                var length = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDoubleOrNull()?:0.0
-                length += 1
-                length = round(length*10)/10
+                var length = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toIntOrNull()?:0
+                length += 100
                 findViewById<EditText>(R.id.editTextFlawLength).setText(length.toString())
             }
             R.id.flawLengthDownButton->
             {
-                var length = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toDoubleOrNull()?:0.0
-                length -= 1
-                length = round(length*10)/10
-                length = max(length, 0.0)
+                var length = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toIntOrNull()?:0
+                length -= 100
+                length = max(length, 0)
                 findViewById<EditText>(R.id.editTextFlawLength).setText(length.toString())
             }
             R.id.flawCountUpButton->

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activityFlawCheck"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     tools:context=".Activities.FlawCheck.FlawCheckActivity" >
@@ -64,50 +65,50 @@
 
                 <TextView
                     android:id="@+id/TextViewStory"
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="6dp"
                     android:layout_weight="1"
                     android:text="STORY"
+                    android:gravity="right"
                     android:layout_gravity="center_vertical"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3">
+                android:layout_weight="8">
 
                 <Button
                     android:id="@+id/buttonOpenAddFloorPopup"
-                    android:layout_width="0dp"
+                    android:layout_width="5dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
                     android:layout_gravity="center_vertical"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
                     android:text="등록"
-                    android:layout_weight="6"/>
+                    android:textSize="11dp" />
 
                 <Spinner
                     android:id="@+id/spinnerFloor"
-                    android:layout_width="80dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:layout_margin="6dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_weight="4" />
 
                 <TextView
                     android:id="@+id/textViewNo"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:textStyle="bold"
+                    android:layout_weight=".5"
+                    android:text="NO"
                     android:textColor="#000"
-                    android:text="NO" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textViewDisplayNo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical"
                     android:textStyle="bold"
                     android:textColor="#000"
@@ -128,22 +129,22 @@
             app:layout_constraintTop_toBottomOf="@+id/addFloorLayout"
             >
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="6dp"
-            android:layout_gravity="center_vertical"
+            android:textAlignment="textEnd"
             android:layout_weight="1"
             android:text="실명"
             app:layout_constraintBottom_toTopOf="@id/flawDetailTotalLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addFloorLayout" />
+
             <EditText
-                android:layout_weight="3"
                 android:id="@+id/editTextFlawName"
-                android:layout_width="100dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:lines="1">
-            </EditText>
+                android:layout_weight="8"
+                android:lines="1"></EditText>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/flawDetailTotalLayout"
@@ -334,7 +335,7 @@
                         android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:layout_gravity="center"
                         android:layout_weight="4"/>
 

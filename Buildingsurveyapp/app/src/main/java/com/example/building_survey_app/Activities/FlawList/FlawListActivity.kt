@@ -11,10 +11,12 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
 import com.example.building_survey_app.Activities.MainPage.MainActivity
 import com.example.building_survey_app.ListViewFlawItem
 import com.example.building_survey_app.ListViewFlawItemAdapter
+import com.example.building_survey_app.ListViewFloorItemAdapter
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.Models.Floor
@@ -34,6 +36,8 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flaw_list)
 
+        var shouldBeScroll = false
+        var scrollItemId = -1
 
         if (savedInstanceState == null) {
             var navigateData = intent.extras;
@@ -49,7 +53,19 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
                     BuildingProjectListViewModel.BuildingProjectList.add(bp)
                     loadExcel(loadProjectName)
                 }
+                // 아닌 경우는 항상 파일 세이브
+                else {
+                    SaveExcel()
+                    var id =  navigateData.getInt("ID", -1)
+                    if ( id == -1)
+                        return
+                    shouldBeScroll = true
+                    scrollItemId = id
+                }
             }
+            else
+                SaveExcel()
+
         }
         supportActionBar?.setTitle( "현장조사 RPA (" + BuildingProjectListViewModel.BuildingProjectList[0].projectName + ")")
 
@@ -74,6 +90,14 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<Button>(R.id.goToHomeFromFlawList).setOnClickListener(this)
         findViewById<Button>(R.id.FlawListSave).setOnClickListener(this);
         findViewById<Button>(R.id.FlawListAddMore).setOnClickListener(this);
+
+        if ( shouldBeScroll )
+        {
+            var idx =  (listView.adapter as ListViewFlawItemAdapter).getItems().indexOfFirst{
+                item->item.ID == scrollItemId
+            };
+            listView.setSelection(idx)
+        }
     }
 
     override fun onBackPressed() {
@@ -179,11 +203,11 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
     //            sheet.autoSizeColumn(j++);
 
                 row.createCell(j);
-                row.getCell(j++)?.setCellValue(flaw.FlawLength);
+                row.getCell(j++)?.setCellValue(flaw.FlawLength.toString());
     //            sheet.autoSizeColumn(j++);
 
                 row.createCell(j);
-                if (flaw.FlawLength == 0.0 || flaw.FlawWidth == 0.0)
+                if (flaw.FlawLength == 0 || flaw.FlawWidth == 0.0)
                     row.getCell(j++)?.setCellValue("-");
                 else
                     row.getCell(j++)
@@ -242,7 +266,7 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
             var os = FileOutputStream(file.absolutePath);
             wb?.write(os)
-            Toast.makeText(this, "저장이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "저장이 성공적으로 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
         catch (e : Exception)
         {
@@ -299,7 +323,7 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
                     6 -> readedFlaw.FlawCategory = row.getCell(j).stringCellValue
                     7 -> readedFlaw.Flaw = row.getCell(j).stringCellValue
                     8 -> readedFlaw.FlawWidth = row.getCell(j).numericCellValue
-                    9 -> readedFlaw.FlawLength = row.getCell(j).numericCellValue
+                    9 -> readedFlaw.FlawLength = row.getCell(j).stringCellValue.toInt()
                     11 -> readedFlaw.FlawCount = row.getCell(j).stringCellValue.toInt()
                     12 -> readedFlaw.capturedPicName = row.getCell(j).stringCellValue
                     13 -> readedFlaw.compareCapturedPicName = row.getCell(j).stringCellValue

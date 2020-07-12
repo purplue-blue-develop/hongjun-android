@@ -26,6 +26,7 @@ class ListViewFloorItem
 }
 
 class ListViewFloorItemAdapter(val ctx : Context, val data : ArrayList<ListViewFloorItem>) : BaseAdapter() {
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         var view = LayoutInflater.from(ctx).inflate(R.layout.activity_listview_project_list_item, null);
 

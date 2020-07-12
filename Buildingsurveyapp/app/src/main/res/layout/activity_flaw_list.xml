@@ -40,16 +40,18 @@
             android:id="@+id/FlawListAddMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="더 추가하기"/>
+            android:text="결함조사 추가"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:visibility="gone"
             android:layout_height="0dp"/>
 
         <Button
             android:id="@+id/FlawListSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:text="저장하기"/>
     </LinearLayout>
 </LinearLayout>

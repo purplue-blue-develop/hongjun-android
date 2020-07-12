@@ -14,40 +14,47 @@
 
         <TextView
             android:id="@+id/textViewListViewItemFLawIDwithFloor"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:text="결함번호"/>
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="결함층_층아이디"/>
 
 
         <ImageView
             android:id="@+id/imageViewListViewItemCapturedPic"
             android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_weight="1"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
             <TextView
                 android:id="@+id/textViewListViewItemFlawCategory"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_weight="5"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
                 android:text="결함유형"/>
 
-            <Button
-                android:id="@+id/flawListViewItemRemoveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="삭제" />
+        <Button
+            android:id="@+id/flawListViewItemRemoveButton"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="삭제"
+            android:textSize="11dp" />
 
-            <Button
-                android:id="@+id/flawListViewItemEditButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="수정" />
+        <Button
+            android:id="@+id/flawListViewItemEditButton"
+            android:layout_width="28dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:text="수정"
+            android:textSize="11dp" />
         </LinearLayout>
 </RelativeLayout>

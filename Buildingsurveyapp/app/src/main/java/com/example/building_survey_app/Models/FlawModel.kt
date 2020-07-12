@@ -12,7 +12,7 @@ class FlawModel : Serializable {
     var FlawPos : String =""
     var Flaw : String=""
     var FlawWidth : Double = 0.0
-    var FlawLength : Double = 0.0
+    var FlawLength : Int = 0
     var FlawCount : Int = 0
     var capturedPic : Bitmap? = null
     var compareCapturedPic : Bitmap? = null

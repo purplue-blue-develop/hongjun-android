@@ -84,7 +84,7 @@ class ExcelHelper : AppCompatActivity() {
                 row?.getCell(j++)?.setCellValue(flaw.Name);
                 row?.getCell(j++)?.setCellValue(flaw.FlawCategory);
                 row?.getCell(j++)?.setCellValue(flaw.FlawPos);
-                row?.getCell(j++)?.setCellValue(flaw.FlawLength);
+                row?.getCell(j++)?.setCellValue(flaw.FlawLength.toString());
                 row?.getCell(j++)?.setCellValue(flaw.FlawWidth);
                 row?.getCell(j++)?.setCellValue(flaw.FlawCount.toString());
 //            row?.getCell(j++)?.setCellValue(flaw.capturedPic);
