@@ -19,9 +19,12 @@ import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.*
 import androidx.core.content.FileProvider
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
+import com.example.building_survey_app.Activities.Popups.FullScreenActivity
 import com.example.building_survey_app.Activities.Popups.PopupAddingFloorList
 import com.example.building_survey_app.Activities.Popups.PopupFlawSpinnerCustomUserInput
 import com.example.building_survey_app.Models.BuildingProject
@@ -60,7 +63,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
 
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
-
+        findViewById<ImageView>(R.id.pictureimageView).setOnClickListener(this)
         findViewById<ImageButton>(R.id.flawWidthUpButton).setOnClickListener(this)
         findViewById<ImageButton>(R.id.flawWidthDownButton).setOnClickListener(this)
         findViewById<ImageButton>(R.id.flawLengthUpButton).setOnClickListener(this)
@@ -527,6 +530,12 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 count = max(0, count)
                 findViewById<EditText>(R.id.editTextFlawCount).setText(count.toString())
 
+            }
+            R.id.pictureimageView->
+            {
+                val fullScreenIntent = Intent(this,  FullScreenActivity::class.java);
+                fullScreenIntent.putExtra("URI", capturePicSaveUri)
+                startActivity(fullScreenIntent);
             }
         }
     }
