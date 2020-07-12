@@ -21,6 +21,7 @@ import com.example.building_survey_app.Activities.Original_Project.OriginalProje
 import com.example.building_survey_app.Models.BuildingProject
 import com.example.building_survey_app.R
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
+import java.io.File
 import java.time.LocalDateTime
 
 
@@ -92,11 +93,25 @@ class NewProjectActivity : AppCompatActivity(), View.OnClickListener {
             }
             R.id.gotoFlawCheck->
             {
-                if (!projectNameCheckSearchSuceed) return
+                if (!projectNameCheckSearchSuceed)
+                {
+                    Toast.makeText(this, "프로젝트명 중복 검사를 수행해주세요", Toast.LENGTH_SHORT).show()
+                    return
+                }
                 var projectName = findViewById<TextView>(R.id.editTextProjectName).text.toString();
 //                buildingProject?.buildingName = findViewById<TextView>(R.id.textViewProjectName).text.toString();
 //                buildingProject?.investDate;
 //                buildingProject?.latestEditedDte = LocalDateTime.now();
+
+                var ff = File(
+                    getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                    projectName
+                )
+                ff.mkdir()
+
+                ff = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                projectName+"/Pictures")
+                ff.mkdir()
 
                 var nextIntent = Intent(this, FlawCheckActivity::class.java)
                 nextIntent.putExtra("ProjectName",projectName )

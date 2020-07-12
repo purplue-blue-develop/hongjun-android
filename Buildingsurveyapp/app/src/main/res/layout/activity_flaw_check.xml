@@ -10,242 +10,505 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-    <Spinner
-        android:id="@+id/spinnerFloor"
-        android:layout_width="180dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toStartOf="@+id/buttonOpenAddFloorPopup"
-        app:layout_constraintHorizontal_bias="0.029"
-        app:layout_constraintStart_toEndOf="@+id/TextViewStory"
-        app:layout_constraintTop_toTopOf="parent" />
         <TextView
-            android:id="@+id/TextViewStory"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="STORY"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/buttonOpenAddFloorPopup"
+            android:id="@+id/projectInfoNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="층 등록"
+            android:layout_marginRight="32dp"
+            android:padding="10dp"
+            android:text="*프로젝트INFO"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/projectNoLayout"
+            app:layout_constraintStart_toStartOf="parent" />
+        <LinearLayout
+            android:id="@+id/projectNoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="10"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textViewDisplayNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:text="1"
-        app:layout_constraintStart_toEndOf="@+id/textViewNo"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerFloor" />
-        <TextView
-            android:id="@+id/textViewNo"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="NO"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TextViewStory" />
+            app:layout_constraintTop_toBottomOf="@id/projectInfoNameTextView">
 
-        <TextView
-            android:id="@+id/textViewListViewItemName"
-            android:layout_width="80dp"
+            <TextView
+                android:id="@+id/textViewListViewItemName"
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:visibility="gone"
+                android:text="프로젝트명" />
+            <TextView
+                android:id="@+id/textViewProjectName_FlawCheck"
+                android:layout_gravity="center_vertical"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_weight="5"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/addFloorLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="6dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/projectNoLayout">
+
+            <TextView
+                android:id="@+id/TextViewStory"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:text="STORY"
+                android:layout_gravity="center_vertical"/>
+            <Spinner
+                android:id="@+id/spinnerFloor"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"/>
+
+            <Button
+                android:id="@+id/buttonOpenAddFloorPopup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_vertical"
+                android:text="등록"
+                android:layout_weight="6"/>
+
+            <TextView
+                android:id="@+id/textViewNo"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="NO" />
+
+            <TextView
+                android:id="@+id/textViewDisplayNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
+                android:text="001"
+                android:layout_weight="1"/>
+        </LinearLayout>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="#c0c0c0"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/addFloorLayout"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/flawNameLayout"/>-->
+        <LinearLayout
+            android:id="@+id/flawNameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/addFloorLayout"
+            >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:text="실명"
+            app:layout_constraintBottom_toTopOf="@id/flawDetailTotalLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewNo" />
-
-        <TextView
-            android:id="@+id/textViewFlawCategory"
-            android:layout_width="80dp"
+            app:layout_constraintTop_toBottomOf="@id/addFloorLayout" />
+            <EditText
+                android:layout_weight="1"
+                android:id="@+id/editTextFlawName"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content">
+            </EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/flawDetailTotalLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="결함 종류"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewListViewItemName" />
+            app:layout_constraintTop_toBottomOf="@+id/flawNameLayout"
+            app:layout_constraintBottom_toTopOf="@+id/flawSizeNameTextView">
+
+            <LinearLayout
+                android:id="@+id/flawCategoryLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewFlawCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="결함종류" />
+
+                <Spinner
+                    android:id="@+id/spinnerFlawCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:entries="@array/flawCategoryItemArray"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/flawViewPosLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/textViewFlawPos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="결함위치"/>
+                <Spinner
+                    android:id="@+id/spinnerFlawPos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:entries="@array/flawPosItemArrayA"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/flawDetailLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <TextView
+                    android:id="@+id/textViewFlaw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="결함유형"/>
+                <Spinner
+                    android:id="@+id/spinnerFlaw"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/flawArrayA"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="#c0c0c0"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/flawDetailTotalLayout"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/flawSizeNameTextView"/>-->
 
         <TextView
-            android:id="@+id/textViewFlawPos"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="결함 위치"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFlawCategory" />
-
-        <TextView
-            android:id="@+id/textViewFlaw"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="결함 유형"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFlawPos" />
-
-        <TextView
-            android:id="@+id/textViewFlawDetail"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="결함 크기"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFlaw" />
-
-        <Spinner
-            android:id="@+id/spinnerFlawCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:layout_marginEnd="16dp"
-            android:entries="@array/flawCategoryItemArray"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawCategory"
-            app:layout_constraintTop_toBottomOf="@+id/editTextName" />
-
-        <Spinner
-            android:id="@+id/spinnerFlawPos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="16dp"
-            android:entries="@array/flawPosItemArrayA"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawPos"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerFlawCategory" />
-
-        <Spinner
-            android:id="@+id/spinnerFlaw"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="16dp"
-            android:entries="@array/flawArrayA"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlaw"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerFlawPos" />
-
-        <EditText
-            android:id="@+id/editTextName"
-            android:layout_width="256dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:singleLine="true"
-            app:layout_constraintStart_toEndOf="@+id/textViewListViewItemName"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDisplayNo" />
-
-        <EditText
-            android:id="@+id/editTextFlawWidth"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:singleLine="true"
-            android:inputType="numberDecimal"
-            app:layout_constraintEnd_toStartOf="@+id/textView15"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawWidth"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerFlaw" />
-
-        <EditText
-            android:id="@+id/editTextFlawLength"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:singleLine="true"
-            android:inputType="numberDecimal"
-            app:layout_constraintEnd_toStartOf="@+id/textView17"
-            app:layout_constraintStart_toEndOf="@+id/textView20"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFlawWidth" />
-
-        <EditText
-            android:id="@+id/editTextFlawCount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:singleLine="true"
-            android:inputType="number"
-            app:layout_constraintEnd_toStartOf="@+id/textView18"
-            app:layout_constraintStart_toEndOf="@+id/textView21"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFlawLength" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:text="mm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerFlaw" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:text="mm"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView15" />
-
-        <TextView
-            android:id="@+id/textView18"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:text="EA"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView17" />
-
-        <Button
-            android:id="@+id/buttonTakeAPhoto"
+            android:id="@+id/flawSizeNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="사진촬영"
+            android:layout_marginTop="32dp"
+            android:padding="10dp"
+            android:text="*결함SIZE"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/flawSizeTotalLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount" />
+            app:layout_constraintTop_toBottomOf="@id/flawDetailTotalLayout" />
 
-        <Button
-            android:id="@+id/buttonTakeACheckPhoto"
+        <LinearLayout
+            android:id="@+id/flawSizeTotalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flawSizeNameTextView"
+            app:layout_constraintBottom_toTopOf="@+id/flawTakePhotoTextView">
+
+            <LinearLayout
+                android:id="@+id/flawWidthLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_weight="3"
+                android:layout_gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewFlawWidth"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:text="폭(mm)"
+                    android:textAlignment="center"/>
+
+                <LinearLayout
+                    android:id="@+id/flawWidthDetailLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="2dp">
+                    <EditText
+                        android:id="@+id/editTextFlawWidth"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_weight="4"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:layout_gravity="center"/>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/flawWidthUnit"-->
+<!--                        android:layout_width="37dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="1.5"-->
+<!--                        android:text="mm"-->
+<!--                        android:textSize="30px"-->
+<!--                        android:gravity="center"-->
+<!--                        android:layout_gravity="center_vertical"/>-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_gravity="center_vertical"
+                        >
+                    <ImageButton
+                        android:id="@+id/flawWidthUpButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/arrow_up_float"/>
+
+                        <ImageButton
+                            android:id="@+id/flawWidthDownButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/arrow_down_float" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/flawLengthLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_weight="3">
+
+                <TextView
+                    android:id="@+id/textViewFlawLength"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:text="길이(mm)"
+                    android:textAlignment="center" />
+
+                <LinearLayout
+                    android:id="@+id/flawLengthDetailLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" >
+                    <EditText
+                        android:id="@+id/editTextFlawLength"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:layout_gravity="center"
+                        android:layout_weight="4"/>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/flawLengthUnit"-->
+<!--                        android:layout_width="37dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:layout_weight="1.5"-->
+<!--                        android:padding="1dp"-->
+<!--                        android:text="mm"-->
+<!--                        android:textSize="30px" />-->
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                    <ImageButton
+                        android:id="@+id/flawLengthUpButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/arrow_up_float"/>
+
+                    <ImageButton
+                        android:id="@+id/flawLengthDownButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/arrow_down_float" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/flawCountLinearLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/textViewFlawCount"
+                    android:layout_width="100dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:text="개소(EA)"
+                    android:textAlignment="center"/>
+
+                <LinearLayout
+                    android:id="@+id/flawCountDetailLinearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="10">
+                    <EditText
+                        android:id="@+id/editTextFlawCount"
+                        android:layout_width="85dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:layout_gravity="center"
+                        android:layout_weight="8"/>
+<!--                    <TextView-->
+<!--                        android:id="@+id/flawCountUnit"-->
+<!--                        android:layout_width="37dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_gravity="center_vertical"-->
+<!--                        android:padding="1dp"-->
+<!--                        android:textSize="30px"-->
+<!--                        android:text="EA"-->
+<!--                        android:layout_weight="1.5"/>-->
+                    <ImageButton
+                        android:id="@+id/flawCountUpButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/arrow_up_float"/>
+
+                    <ImageButton
+                        android:id="@+id/flawCountDownButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:visibility="gone"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        app:srcCompat="@android:drawable/arrow_down_float" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="2dp"-->
+<!--            android:background="#c0c0c0"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/flawSizeTotalLayout"-->
+<!--            app:layout_constraintBottom_toTopOf="@+id/flawTakePhotoTextView"/>-->
+        <TextView
+            android:id="@+id/flawTakePhotoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:text="비교촬영"
+            android:layout_marginRight="32dp"
+            android:padding="10dp"
+            android:text="*결함PHOTO"
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/takePicturesLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTakeAPhoto" />
+            app:layout_constraintTop_toBottomOf="@id/flawSizeTotalLayout" />
+        <LinearLayout
+            android:id="@+id/takePicturesLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flawTakePhotoTextView">
+            <LinearLayout
+                android:id="@+id/takePhotoLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="16dp"
+                android:weightSum="10"
+                android:layout_weight="5"
+                app:layout_constraintTop_toBottomOf="@id/flawSizeTotalLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+                <Button
+                    android:id="@+id/buttonTakeAPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:text="사진촬영"/>
+
+                <ImageView
+                    android:id="@+id/pictureimageView"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    app:srcCompat="@drawable/ic_launcher_background" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/compPhotoLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="16dp"
+                android:layout_weight="5"
+                android:weightSum="10">
+                <Button
+                    android:id="@+id/buttonTakeACheckPhoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:text="비교촬영"/>
+
+                <ImageView
+                    android:id="@+id/picturecompimageView"
+                    android:layout_width="128dp"
+                    android:layout_height="128dp"
+                    android:layout_margin="16dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="8"
+                    app:srcCompat="@drawable/ic_launcher_background" />
+            </LinearLayout>
+        </LinearLayout>
 
         <Button
             android:id="@+id/buttonSaveFlawModel"
@@ -254,61 +517,12 @@
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
             android:text="등록"
+            android:layout_gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonTakeACheckPhoto" />
+            app:layout_constraintTop_toBottomOf="@+id/takePicturesLayout" />
 
-        <TextView
-            android:id="@+id/textViewFlawWidth"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
-            android:text="폭"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawDetail"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerFlaw" />
-
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="길이"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawDetail"
-            app:layout_constraintTop_toBottomOf="@+id/textViewFlawWidth" />
-
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:text="개소"
-            app:layout_constraintStart_toEndOf="@+id/textViewFlawDetail"
-            app:layout_constraintTop_toBottomOf="@+id/textView20" />
-
-        <ImageView
-            android:id="@+id/pictureimageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonSaveFlawModel"
-            app:layout_constraintStart_toEndOf="@+id/buttonTakeAPhoto"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount"
-            app:srcCompat="@drawable/ic_launcher_background" />
-
-        <ImageView
-            android:id="@+id/picturecompimageView"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="64dp"
-            app:layout_constraintBottom_toTopOf="@+id/buttonSaveFlawModel"
-            app:layout_constraintStart_toEndOf="@+id/pictureimageView"
-            app:layout_constraintTop_toBottomOf="@+id/editTextFlawCount"
-            app:srcCompat="@drawable/ic_launcher_background" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 

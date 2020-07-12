@@ -17,6 +17,7 @@ import com.example.building_survey_app.Activities.FlawCheck.FlawCheckActivity
 import com.example.building_survey_app.Activities.FlawList.FlawListActivity
 import com.example.building_survey_app.Models.FlawModel
 import com.example.building_survey_app.ViewModels.BuildingProjectListViewModel
+import org.w3c.dom.Text
 
 class listview_flawListItem : AppCompatActivity() {
 
@@ -29,10 +30,12 @@ class listview_flawListItem : AppCompatActivity() {
 class ListViewFlawItem {
     var capturedPic : Bitmap? = null;
     var ID : Int = 0;
+    var IDBasedFloor : Int  = 0
     var Name : String = "";
     var FlawCategory : String = "";
     var FlawPos : String = "";
     var Flaw : String = "";
+    var Floor : String =""
 }
 
 class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFlawItem>) : BaseAdapter() {
@@ -40,21 +43,14 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
         var view = LayoutInflater.from(ctx).inflate(R.layout.activity_listview_flaw_list_item, null);
 
         val imageView = view?.findViewById<ImageView>(R.id.imageViewListViewItemCapturedPic) as ImageView;
-        val idTextView = view.findViewById<TextView>(R.id.textViewListViewItemID) as TextView;
-        val nameTextView = view.findViewById<TextView>(R.id.textViewListViewItemName) as TextView;
-
         val flawCategoryTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlawCategory) as TextView;
-        val flawPosTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlawPos) as TextView;
-        val flawTextView = view.findViewById<TextView>(R.id.textViewListViewItemFlaw) as TextView;
+        val flawIDWithFloor = view.findViewById<TextView>(R.id.textViewListViewItemFLawIDwithFloor) as TextView
 
         val cur = data[position];
 
         imageView.setImageBitmap(cur.capturedPic)
-        idTextView.text = cur.ID.toString();
-        nameTextView.text =cur.Name;
+        flawIDWithFloor.text =  cur.Floor + "_" + cur.IDBasedFloor
         flawCategoryTextView.text =cur.FlawCategory;
-        flawPosTextView.text = cur.FlawPos;
-        flawTextView.text = cur.Flaw;
 
         view.findViewById<Button>(R.id.flawListViewItemEditButton).setOnClickListener(View.OnClickListener() {
             val id = cur.ID;
@@ -70,7 +66,6 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
                 BuildingProjectListViewModel.BuildingProjectList[0].flawList.find { f -> f.id == id };
 
             flaw?.Name = ""
-            flaw?.Floor = ""
             flaw?.FlawCategory =""
             flaw?.FlawPos =""
             flaw?.Flaw = ""
@@ -79,6 +74,8 @@ class ListViewFlawItemAdapter(val ctx : Context, val data : ArrayList<ListViewFl
             flaw?.FlawCount =0
             flaw?.capturedPic = null
             flaw?.compareCapturedPic = null
+            flaw?.compareCapturedPicName = ""
+            flaw?.capturedPicName = ""
             ctx.startActivity(Intent(ctx, FlawListActivity::class.java));
         });
 
