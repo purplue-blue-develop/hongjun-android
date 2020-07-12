@@ -33,6 +33,7 @@
         <activity android:name=".listview_flawListItem" />
         <activity android:name=".Activities.FlawList.FlawListActivity" />
         <activity android:name=".Activities.Popups.PopupAddingFloorList" />
+        <activity android:name=".Activities.Popups.FullScreenActivity"/>
         <activity android:name=".Activities.FlawCheck.FlawCheckActivity">
 
             <!-- <intent-filter> -->
