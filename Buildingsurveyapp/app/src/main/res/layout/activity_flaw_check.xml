@@ -62,47 +62,58 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/projectNoLayout">
 
-            <TextView
-                android:id="@+id/TextViewStory"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:text="STORY"
-                android:layout_gravity="center_vertical"/>
-            <Spinner
-                android:id="@+id/spinnerFloor"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"/>
-
-            <Button
-                android:id="@+id/buttonOpenAddFloorPopup"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_gravity="center_vertical"
-                android:text="등록"
-                android:layout_weight="6"/>
-
-            <TextView
-                android:id="@+id/textViewNo"
-                android:layout_weight="1"
+                <TextView
+                    android:id="@+id/TextViewStory"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:layout_weight="1"
+                    android:text="STORY"
+                    android:layout_gravity="center_vertical"/>
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="NO" />
+                android:layout_weight="3">
 
-            <TextView
-                android:id="@+id/textViewDisplayNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="center_vertical"
-                android:text="001"
-                android:layout_weight="1"/>
+                <Button
+                    android:id="@+id/buttonOpenAddFloorPopup"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:text="등록"
+                    android:layout_weight="6"/>
+
+                <Spinner
+                    android:id="@+id/spinnerFloor"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="6dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_vertical"/>
+
+                <TextView
+                    android:id="@+id/textViewNo"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="NO" />
+
+                <TextView
+                    android:id="@+id/textViewDisplayNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="001"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
 <!--        <View-->
 <!--            android:layout_width="match_parent"-->
@@ -127,10 +138,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addFloorLayout" />
             <EditText
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:id="@+id/editTextFlawName"
                 android:layout_width="100dp"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:lines="1">
             </EditText>
         </LinearLayout>
         <LinearLayout
@@ -156,6 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:text="결함종류" />
 
                 <Spinner
@@ -176,6 +189,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:text="결함위치"/>
                 <Spinner
                     android:id="@+id/spinnerFlawPos"
@@ -194,6 +208,7 @@
                     android:id="@+id/textViewFlaw"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:visibility="gone"
                     android:layout_gravity="center"
                     android:text="결함유형"/>
                 <Spinner
@@ -248,6 +263,7 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:text="폭(mm)"
                     android:textAlignment="center"/>
 
@@ -259,23 +275,13 @@
                     android:layout_marginTop="2dp">
                     <EditText
                         android:id="@+id/editTextFlawWidth"
-                        android:layout_width="0dp"
+                        android:layout_width="85dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_weight="4"
                         android:singleLine="true"
                         android:inputType="numberDecimal"
                         android:layout_gravity="center"/>
-
-<!--                    <TextView-->
-<!--                        android:id="@+id/flawWidthUnit"-->
-<!--                        android:layout_width="37dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_weight="1.5"-->
-<!--                        android:text="mm"-->
-<!--                        android:textSize="30px"-->
-<!--                        android:gravity="center"-->
-<!--                        android:layout_gravity="center_vertical"/>-->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -314,6 +320,7 @@
                     android:layout_width="100dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
+                    android:visibility="gone"
                     android:text="길이(mm)"
                     android:textAlignment="center" />
 
@@ -331,15 +338,6 @@
                         android:layout_gravity="center"
                         android:layout_weight="4"/>
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/flawLengthUnit"-->
-<!--                        android:layout_width="37dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_vertical"-->
-<!--                        android:layout_weight="1.5"-->
-<!--                        android:padding="1dp"-->
-<!--                        android:text="mm"-->
-<!--                        android:textSize="30px" />-->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
@@ -377,50 +375,45 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center"
                     android:text="개소(EA)"
+                    android:visibility="gone"
                     android:textAlignment="center"/>
 
                 <LinearLayout
                     android:id="@+id/flawCountDetailLinearLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="10">
+                    android:orientation="horizontal">
                     <EditText
                         android:id="@+id/editTextFlawCount"
-                        android:layout_width="85dp"
+                        android:layout_width="30dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:singleLine="true"
                         android:inputType="numberDecimal"
                         android:layout_gravity="center"
-                        android:layout_weight="8"/>
-<!--                    <TextView-->
-<!--                        android:id="@+id/flawCountUnit"-->
-<!--                        android:layout_width="37dp"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_gravity="center_vertical"-->
-<!--                        android:padding="1dp"-->
-<!--                        android:textSize="30px"-->
-<!--                        android:text="EA"-->
-<!--                        android:layout_weight="1.5"/>-->
-                    <ImageButton
-                        android:id="@+id/flawCountUpButton"
+                        android:layout_weight="4"/>
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:visibility="gone"
-                        android:layout_weight="1"
-                        app:srcCompat="@android:drawable/arrow_up_float"/>
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        >
+                        <ImageButton
+                            android:id="@+id/flawCountUpButton"
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:layout_gravity="center"
+                             android:layout_weight="1"
+                             app:srcCompat="@android:drawable/arrow_up_float"/>
 
-                    <ImageButton
+                        <ImageButton
                         android:id="@+id/flawCountDownButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:visibility="gone"
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         app:srcCompat="@android:drawable/arrow_down_float" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -445,7 +438,7 @@
             app:layout_constraintTop_toBottomOf="@id/flawSizeTotalLayout" />
         <LinearLayout
             android:id="@+id/takePicturesLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="10"
@@ -457,29 +450,35 @@
                 android:id="@+id/takePhotoLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:layout_margin="16dp"
-                android:weightSum="10"
-                android:layout_weight="5"
+                android:layout_weight="8"
                 app:layout_constraintTop_toBottomOf="@id/flawSizeTotalLayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
+
                 <Button
                     android:id="@+id/buttonTakeAPhoto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_width="62dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
-                    android:layout_weight="2"
-                    android:text="사진촬영"/>
+                    android:layout_margin="16dp"
+                    android:text="사진촬영"
+                    android:textSize="10dp" />
+
+<!--                <ImageButton-->
+<!--                    android:id="@+id/buttonTakeAPhoto"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_gravity="center"-->
+<!--                    app:srcCompat="@android:drawable/ic_menu_camera"/>-->
 
                 <ImageView
                     android:id="@+id/pictureimageView"
-                    android:layout_width="128dp"
-                    android:layout_height="128dp"
+                    android:layout_width="64dp"
+                    android:layout_height="48dp"
                     android:layout_margin="16dp"
                     android:layout_gravity="center"
-                    android:layout_weight="8"
                     app:srcCompat="@drawable/ic_launcher_background" />
             </LinearLayout>
             <LinearLayout
@@ -489,6 +488,7 @@
                 android:orientation="vertical"
                 android:layout_margin="16dp"
                 android:layout_weight="5"
+                android:visibility="gone"
                 android:weightSum="10">
                 <Button
                     android:id="@+id/buttonTakeACheckPhoto"
@@ -508,20 +508,20 @@
                     android:layout_weight="8"
                     app:srcCompat="@drawable/ic_launcher_background" />
             </LinearLayout>
-        </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonSaveFlawModel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:text="등록"
-            android:layout_gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/takePicturesLayout" />
+            <Button
+                android:id="@+id/buttonSaveFlawModel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="등록"
+                android:layout_gravity="center_vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/takePicturesLayout" />
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
