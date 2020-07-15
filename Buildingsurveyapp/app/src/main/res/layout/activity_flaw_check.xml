@@ -159,8 +159,8 @@
 
             <LinearLayout
                 android:id="@+id/flawCategoryLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -172,17 +172,38 @@
                     android:visibility="gone"
                     android:text="결함종류" />
 
-                <Spinner
-                    android:id="@+id/spinnerFlawCategory"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:entries="@array/flawCategoryItemArray"/>
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/spinnerFlawCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textAlignment="textEnd"
+                        android:entries="@array/flawCategoryItemArray"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewFlawCategoryEtc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:lines="1"
+                        android:layout_marginRight="40dp"
+                        android:visibility="gone"
+                        android:textColor="#000"
+                        android:background="@color/design_default_color_background"
+                        android:textSize="17dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/flawViewPosLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
                 android:orientation="vertical"
                 android:layout_weight="1">
                 <TextView
@@ -192,17 +213,35 @@
                     android:layout_gravity="center"
                     android:visibility="gone"
                     android:text="결함위치"/>
-                <Spinner
-                    android:id="@+id/spinnerFlawPos"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:entries="@array/flawPosItemArrayA"/>
+                    android:layout_height="match_parent">
+                    <Spinner
+                        android:id="@+id/spinnerFlawPos"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:entries="@array/flawPosItemArrayA"
+                        android:textAlignment="textEnd"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/textViewFlawPosEtc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:lines="1"
+                        android:visibility="gone"
+                        android:layout_marginRight="40dp"
+                        android:textColor="#000"
+                        android:background="@color/design_default_color_background"
+                        android:textSize="17dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/flawDetailLinearLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="28dp"
                 android:orientation="vertical"
                 android:layout_weight="1">
                 <TextView
@@ -212,12 +251,31 @@
                     android:visibility="gone"
                     android:layout_gravity="center"
                     android:text="결함유형"/>
-                <Spinner
-                    android:id="@+id/spinnerFlaw"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/flawArrayA"
-                    />
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/spinnerFlaw"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:entries="@array/flawArrayA"
+                        android:textAlignment="textEnd"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <TextView
+                        android:id="@+id/textViewFlawEtc"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:lines="1"
+                        android:layout_marginRight="40dp"
+                        android:visibility="gone"
+                        android:textColor="#000"
+                        android:background="@color/design_default_color_background"
+                        android:textSize="17dp"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>
 <!--        <View-->
@@ -460,12 +518,11 @@
 
                 <Button
                     android:id="@+id/buttonTakeAPhoto"
-                    android:layout_width="62dp"
-                    android:layout_height="32dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:text="사진촬영"
-                    android:textSize="10dp" />
+                    android:text="사진촬영"/>
 
 <!--                <ImageButton-->
 <!--                    android:id="@+id/buttonTakeAPhoto"-->

@@ -13,14 +13,6 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"
-        android:inputType="text"
-        android:text="hi this is EditText"
-        />
-    <Button
-        android:id="@+id/buttonCloseCustomUserInputPopup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="완료"/>
+        android:inputType="text" />
 
 </LinearLayout>

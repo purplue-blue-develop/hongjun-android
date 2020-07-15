@@ -3,7 +3,8 @@
     <array name="flawCategoryItemArray">
         <item>균열</item>
         <item>열화</item>
-        <item>직접입력</item>
+        <item>현황</item>
+        <item>기타</item>
     </array>
     <array name="flawPosItemArrayA">
         <item>벽체</item>
@@ -15,7 +16,7 @@
         <item>벽체+창호</item>
         <item>파라펫</item>
         <item>난간</item>
-        <item>직접입력</item>
+        <item>기타</item>
     </array>
     <array name="flawPosItemArrayB">
         <item>벽체</item>
@@ -25,7 +26,9 @@
         <item>기둥+벽체</item>
         <item>파라펫</item>
         <item>난간</item>
-        <item>직접입력</item>
+        <item>기타</item>
+    </array>
+    <array name="flawPosItemArrayC">
     </array>
     <array name="flawArrayA">
         <item>수직균열</item>
@@ -36,7 +39,7 @@
         <item>수평/사선</item>
         <item>이격상태</item>
         <item>망상균열</item>
-        <item>직접입력</item>
+        <item>기타</item>
     </array>
     <array name="flawArrayB">
         <item>마감재파손</item>
@@ -47,6 +50,15 @@
         <item>단면박락</item>
         <item>철근노출</item>
         <item>미장들뜸</item>
-        <item>직접입력</item>
+        <item>기타</item>
+    </array>
+    <array name="flawArrayC">
+        <item>내부시공상태</item>
+        <item>내부전경</item>
+        <item>외부시공상태</item>
+        <item>외부전경</item>
+        <item>전경</item>
+        <item>시공상태</item>
+        <item>기타</item>
     </array>
 </resources>
