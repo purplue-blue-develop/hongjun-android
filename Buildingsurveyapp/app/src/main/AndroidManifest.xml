@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activities.Popups.PopupAddingFlawNameList"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -29,12 +30,12 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="com.chaosApp.chaos.listview_floorListItem" />
-        <activity android:name="com.chaosApp.chaos.listview_flawListItem" />
-        <activity android:name="com.chaosApp.chaos.Activities.FlawList.FlawListActivity" />
-        <activity android:name="com.chaosApp.chaos.Activities.Popups.PopupAddingFloorList" />
-        <activity android:name="com.chaosApp.chaos.Activities.Popups.FullScreenActivity"/>
-        <activity android:name="com.chaosApp.chaos.Activities.FlawCheck.FlawCheckActivity">
+        <activity android:name=".listview_floorListItem" />
+        <activity android:name=".listview_flawListItem" />
+        <activity android:name=".Activities.FlawList.FlawListActivity" />
+        <activity android:name=".Activities.Popups.PopupAddingFloorList" />
+        <activity android:name=".Activities.Popups.FullScreenActivity" />
+        <activity android:name=".Activities.FlawCheck.FlawCheckActivity">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -43,17 +44,16 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name="com.chaosApp.chaos.Activities.New_Edit_Project.NewProjectActivity" />
-        <activity android:name="com.chaosApp.chaos.Activities.Original_Project.OriginalProjectActivity" />
-        <activity android:name="com.chaosApp.chaos.Activities.MainPage.MainActivity">
+        <activity android:name=".Activities.New_Edit_Project.NewProjectActivity" />
+        <activity android:name=".Activities.Original_Project.OriginalProjectActivity" />
+        <activity android:name=".Activities.MainPage.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.chaosApp.chaos.Activities.Popups.PopupFlawSpinnerCustomUserInput"/>
+        <activity android:name=".Activities.Popups.PopupFlawSpinnerCustomUserInput" />
     </application>
 
 </manifest>

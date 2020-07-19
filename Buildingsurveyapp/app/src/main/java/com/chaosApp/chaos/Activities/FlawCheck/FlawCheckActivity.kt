@@ -21,6 +21,7 @@ import android.widget.*
 import androidx.core.content.FileProvider
 import com.chaosApp.chaos.Activities.FlawList.FlawListActivity
 import com.chaosApp.chaos.Activities.Popups.FullScreenActivity
+import com.chaosApp.chaos.Activities.Popups.PopupAddingFlawNameList
 import com.chaosApp.chaos.Activities.Popups.PopupAddingFloorList
 import com.chaosApp.chaos.Models.BuildingProject
 import com.chaosApp.chaos.Models.FlawModel
@@ -35,6 +36,7 @@ import kotlin.math.round
 const val CAMERA_REQUET = 1
 const val CAMERA_CHKREQUEST = 2
 const val POPUP_FLOORADD = 3
+const val POPUP_FLAWADD = 4
 
 class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
     var imageFloor : Bitmap? = null;
@@ -61,6 +63,8 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
 
         findViewById<Button>(R.id.buttonTakeAPhoto).setOnClickListener(this);
         findViewById<Button>(R.id.buttonTakeACheckPhoto).setOnClickListener(this);
+        findViewById<Button>(R.id.buttonOpenAddFlawNamePopup).setOnClickListener(this)
+
         findViewById<ImageView>(R.id.pictureimageView).setOnClickListener(this)
         findViewById<ImageButton>(R.id.flawWidthUpButton).setOnClickListener(this)
         findViewById<ImageButton>(R.id.flawWidthDownButton).setOnClickListener(this)
@@ -215,10 +219,14 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 floorListArray.add(floor.Name);
         }
 
-        val adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, floorListArray);
+        var adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, floorListArray);
 
         val floorView = findViewById<Spinner>(R.id.spinnerFloor)
         floorView.adapter = adapter
+
+        var flawNames = BuildingProjectListViewModel.BuildingProjectList[0].flawNameList
+        adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, flawNames)
+        findViewById<Spinner>(R.id.spinnerFlawName).adapter = adapter
 
         if (savedInstanceState == null) {
             var navigateData = intent.extras;
@@ -441,7 +449,16 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         val floorView = findViewById<Spinner>(R.id.spinnerFloor)
         floorView.adapter = flooradapter
         floorView.setSelection(flooradapter.getPosition(flaw.Floor))
-        findViewById<EditText>(R.id.editTextFlawName).setText( flaw.Name, TextView.BufferType.EDITABLE )
+//        findViewById<EditText>(R.id.editTextFlawName).setText( flaw.Name, TextView.BufferType.EDITABLE )
+
+        findViewById<Spinner>(R.id.spinnerFlawName).adapter =
+            ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, BuildingProjectListViewModel.BuildingProjectList[0].flawNameList )
+        findViewById<Spinner>(R.id.spinnerFlawName).setSelection(BuildingProjectListViewModel.BuildingProjectList[0].flawNameList.indexOfFirst {
+            name->name == flaw.Name
+        })
+
+        findViewById<Spinner>(R.id.spinnerFlaw)
+
         findViewById<TextView>(R.id.textViewProjectName_FlawCheck).setText( BuildingProjectListViewModel.BuildingProjectList[0].projectName )
         findViewById<EditText>(R.id.editTextFlawWidth).setText( flaw.FlawWidth.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
@@ -501,7 +518,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     newFlaw.id = BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1
 
                 newFlaw.idBasedFloor = findViewById<TextView>(R.id.textViewDisplayNo).text.toString().toInt();
-                newFlaw.Name = findViewById<EditText>( R.id.editTextFlawName ).text.toString();
+                newFlaw.Name = findViewById<Spinner>( R.id.spinnerFlawName ).selectedItem.toString()
                 newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
                 newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
                 newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
@@ -680,6 +697,11 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 fullScreenIntent.putExtra("URI", capturePicSaveUri)
                 startActivity(fullScreenIntent);
             }
+            R.id.buttonOpenAddFlawNamePopup->
+            {
+                var intent = Intent(this, PopupAddingFlawNameList::class.java)
+                startActivityForResult(intent, POPUP_FLAWADD)
+            }
         }
     }
 
@@ -728,6 +750,13 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     floorView.adapter = adapter
                 }
             }
+            POPUP_FLAWADD->{
+                if (resultCode == Activity.RESULT_OK){
+                    var flawNames = BuildingProjectListViewModel.BuildingProjectList[0].flawNameList
+                    findViewById<Spinner>(R.id.spinnerFlawName).adapter = ArrayAdapter(applicationContext, android.R.layout.simple_spinner_item, flawNames)
+                    findViewById<Spinner>(R.id.spinnerFlawName).setSelection(flawNames.size-1)
+                }
+            }
         }
     }
 
@@ -740,7 +769,11 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
             floor->floor.Name == recentFlawModel.Floor
         }
         findViewById<Spinner>(R.id.spinnerFloor).setSelection( index )
-        findViewById<EditText>(R.id.editTextFlawName).setText(recentFlawModel.Name, TextView.BufferType.EDITABLE)
+
+        index = BuildingProjectListViewModel.BuildingProjectList[0].flawNameList.indexOfFirst{
+            Name->Name == recentFlawModel.Name
+        }
+        findViewById<Spinner>(R.id.spinnerFlawName).setSelection( index )
     }
 
     fun IsEditMode(savedInstanceState: Bundle?) : Boolean

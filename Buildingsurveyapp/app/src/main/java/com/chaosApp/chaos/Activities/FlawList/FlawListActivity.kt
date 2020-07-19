@@ -353,8 +353,11 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
                     readedFlaw.compareCapturedPic = BitmapFactory.decodeFile(pic?.absolutePath)
             }
 
+            if (readedFlaw.Name.isNullOrEmpty())
+                readedFlaw.Name = "선택 없음"
             flawList.add(readedFlaw)
         }
+
         var floorList = BuildingProjectListViewModel.BuildingProjectList[0].floorList
         for (flaw in flawList)
         {
@@ -364,6 +367,17 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
             if ( exist == null)
                 floorList.add(Floor(flaw.Floor))
+        }
+
+        var flawNames = BuildingProjectListViewModel.BuildingProjectList[0].flawNameList
+        for (flaw in flawList)
+        {
+            var exist= flawNames.find{
+                Name->Name == flaw.Name
+            }
+
+            if ( exist == null)
+                flawNames.add(flaw.Name)
         }
 
         /*

@@ -8,6 +8,7 @@ class BuildingProject : Serializable {
     var buildingName : String = "";
     var floorList = mutableListOf<Floor>();
     var flawList = mutableListOf<FlawModel>();
+    var flawNameList = mutableListOf<String>("선택 없음");
     var investDate : LocalDateTime = LocalDateTime.now();
 
     // 생성일시
