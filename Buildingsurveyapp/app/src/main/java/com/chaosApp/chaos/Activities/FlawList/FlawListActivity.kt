@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import com.chaosApp.chaos.Activities.FlawCheck.FlawCheckActivity
 import com.chaosApp.chaos.Activities.MainPage.MainActivity
 import com.chaosApp.chaos.ListViewFlawItem
@@ -19,6 +20,7 @@ import com.chaosApp.chaos.Models.FlawModel
 import com.chaosApp.chaos.Models.Floor
 import com.chaosApp.chaos.R
 import com.chaosApp.chaos.ViewModels.BuildingProjectListViewModel
+import com.chaosApp.chaos._ListViewFlawItemAdapter
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.xssf.usermodel.*
 import java.io.File
@@ -79,8 +81,9 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
             listItems.add(newItem);
         }
 
-        var listView = findViewById<View>(R.id.TotalFlawList) as ListView;
-        listView.adapter = ListViewFlawItemAdapter(this, listItems);
+        var listView = findViewById<View>(R.id.TotalFlawList) as RecyclerView;
+        listView.adapter = _ListViewFlawItemAdapter(this)
+        (listView.adapter as _ListViewFlawItemAdapter).setFlaws(listItems)
 
         findViewById<Button>(R.id.goToHomeFromFlawList).setOnClickListener(this)
         findViewById<Button>(R.id.FlawListSave).setOnClickListener(this);
@@ -88,10 +91,10 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
 
         if ( shouldBeScroll )
         {
-            var idx =  (listView.adapter as ListViewFlawItemAdapter).getItems().indexOfFirst{
+            var idx =  (listView.adapter as _ListViewFlawItemAdapter).getItems().indexOfFirst{
                 item->item.ID == scrollItemId
             };
-            listView.setSelection(idx)
+            listView.layoutManager?.scrollToPosition(idx)
         }
     }
 
@@ -341,16 +344,16 @@ class FlawListActivity : AppCompatActivity(), View.OnClickListener {
                     f->f.name == readedFlaw.capturedPicName
                 }
 
-                if (pic!=null)
-                 readedFlaw.capturedPic = BitmapFactory.decodeFile(pic?.absolutePath)
+//                if (pic!=null)
+//                 readedFlaw.capturedPic = BitmapFactory.decodeFile(pic?.absolutePath)
             }
             if (!readedFlaw.compareCapturedPicName.isNullOrEmpty())
             {
                 var pic = projectPictureFolder.listFiles().find {
                         f->f.name == readedFlaw.compareCapturedPicName
                 }
-                if (pic!=null)
-                    readedFlaw.compareCapturedPic = BitmapFactory.decodeFile(pic?.absolutePath)
+//                if (pic!=null)
+//                    readedFlaw.compareCapturedPic = BitmapFactory.decodeFile(pic?.absolutePath)
             }
 
             if (readedFlaw.Name.isNullOrEmpty())

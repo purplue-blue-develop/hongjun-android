@@ -78,5 +78,5 @@
         android:layout_marginRight="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ListViewShowFloorList" />
+        app:layout_constraintTop_toBottomOf="@+id/ListViewShowFlawNameList" />
 </androidx.constraintlayout.widget.ConstraintLayout>

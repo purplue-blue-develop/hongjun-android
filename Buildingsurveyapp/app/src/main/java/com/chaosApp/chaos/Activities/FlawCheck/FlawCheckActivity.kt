@@ -464,17 +464,7 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
         findViewById<EditText>(R.id.editTextFlawCount).setText( flaw.FlawCount.toString(), TextView.BufferType.EDITABLE);
         findViewById<EditText>(R.id.editTextFlawLength).setText( flaw.FlawLength.toString(), TextView.BufferType.EDITABLE);
 
-        if (!flaw.capturedPicName.isNullOrEmpty()) {
-            findViewById<ImageView>(R.id.pictureimageView).setImageBitmap(flaw.capturedPic);
-            imageFloor = flaw.capturedPic;
-        }
-        if (!flaw.capturedPicName.isNullOrEmpty()) {
-            findViewById<ImageView>(R.id.picturecompimageView).setImageBitmap(flaw.compareCapturedPic);
-            imageCompFloor = flaw.compareCapturedPic;
-        }
         findViewById<TextView>(R.id.projectInfoNameTextView).setText( BuildingProjectListViewModel.BuildingProjectList[0].projectName );
-        findViewById<ImageView>(R.id.pictureimageView). setImageBitmap(flaw.capturedPic);
-        findViewById<ImageView>(R.id.picturecompimageView). setImageBitmap(flaw.compareCapturedPic);
         imageFloor = flaw.capturedPic;
         imageCompFloor = flaw.compareCapturedPic;
 
@@ -485,8 +475,11 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     +findViewById<TextView>(R.id.textViewDisplayNo).text.toString() + ".png"
         )
 
-        if (file.exists())
-            capturePicSaveUri = FileProvider.getUriForFile(this, "com.chaosApp.chaos.fileProvider" ,file);
+        if (file.exists()) {
+            capturePicSaveUri =
+                FileProvider.getUriForFile(this, "com.chaosApp.chaos.fileProvider", file);
+            findViewById<ImageView>(R.id.pictureimageView).setImageBitmap(ImageDecoder.decodeBitmap(ImageDecoder.createSource(file)))
+        }
         file = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
             BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/" +
                     "Pictures/" +
@@ -494,8 +487,11 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                     +findViewById<TextView>(R.id.textViewDisplayNo).text.toString() + "_비교.png"
         )
 
-        if (file.exists())
-            compCapturePicSaveUri = FileProvider.getUriForFile(this, "com.chaosApp.chaos.fileProvider" ,file);
+        if (file.exists()) {
+            compCapturePicSaveUri =
+                FileProvider.getUriForFile(this, "com.chaosApp.chaos.fileProvider", file);
+            findViewById<ImageView>(R.id.pictureimageView).setImageBitmap(ImageDecoder.decodeBitmap(ImageDecoder.createSource(file)))
+        }
     }
 
     override fun onClick(v: View?) {
@@ -508,99 +504,117 @@ class FlawCheckActivity : AppCompatActivity(), View.OnClickListener {
                 startActivityForResult(intent, POPUP_FLOORADD);
             }
             R.id.buttonSaveFlawModel-> {
+                try {
 
-                var project = BuildingProjectListViewModel.BuildingProjectList?.get(0);
-                var newFlaw = FlawModel();
+                    var project = BuildingProjectListViewModel.BuildingProjectList?.get(0);
+                    var newFlaw = FlawModel();
 
-                if (isEditMode)
-                    newFlaw.id = EditModeID
-                else
-                    newFlaw.id = BuildingProjectListViewModel.BuildingProjectList[0].flawList.size + 1
+                    if (isEditMode)
+                        newFlaw.id = EditModeID
+                    else
+                        newFlaw.id = project.flawList.size
 
-                newFlaw.idBasedFloor = findViewById<TextView>(R.id.textViewDisplayNo).text.toString().toInt();
-                newFlaw.Name = findViewById<Spinner>( R.id.spinnerFlawName ).selectedItem.toString()
-                newFlaw.FlawCategory = findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
-                newFlaw.FlawPos = findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
-                newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
-                if ( findViewById<Spinner>(R.id.spinnerFloor).selectedItemPosition == -1) {
-                    Toast.makeText(this, "층을 선택해주세요.", Toast.LENGTH_SHORT).show()
-                    return;
-                }
-                else
-                    newFlaw.Floor = findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
+                    newFlaw.idBasedFloor =
+                        findViewById<TextView>(R.id.textViewDisplayNo).text.toString().toInt();
+                    newFlaw.Name =
+                        findViewById<Spinner>(R.id.spinnerFlawName).selectedItem.toString()
+                    newFlaw.FlawCategory =
+                        findViewById<Spinner>(R.id.spinnerFlawCategory).selectedItem.toString();
+                    newFlaw.FlawPos =
+                        findViewById<Spinner>(R.id.spinnerFlawPos).selectedItem.toString();
+                    newFlaw.Flaw = findViewById<Spinner>(R.id.spinnerFlaw).selectedItem.toString();
+                    if (findViewById<Spinner>(R.id.spinnerFloor).selectedItemPosition == -1) {
+                        Toast.makeText(this, "층을 선택해주세요.", Toast.LENGTH_SHORT).show()
+                        return;
+                    } else
+                        newFlaw.Floor =
+                            findViewById<Spinner>(R.id.spinnerFloor).selectedItem.toString();
 
-                if  (newFlaw.FlawCategory == "기타" )
-                    newFlaw.FlawCategory = userInputFlawCategory
+                    if (newFlaw.FlawCategory == "기타")
+                        newFlaw.FlawCategory = userInputFlawCategory
 
-                if  (newFlaw.Flaw == "기타" )
-                    newFlaw.Flaw = userInputFlaw
+                    if (newFlaw.Flaw == "기타")
+                        newFlaw.Flaw = userInputFlaw
 
-                if  (newFlaw.FlawPos == "기타" )
-                    newFlaw.FlawPos = userInputFlawPos
+                    if (newFlaw.FlawPos == "기타")
+                        newFlaw.FlawPos = userInputFlawPos
 
-                newFlaw.FlawWidth = findViewById<EditText>(R.id.editTextFlawWidth).text.toString().toDoubleOrNull()?:0.0
-                newFlaw.FlawLength = findViewById<EditText>(R.id.editTextFlawLength).text.toString().toIntOrNull()?:0
-                newFlaw.FlawCount = findViewById<EditText>(R.id.editTextFlawCount).text.toString().toIntOrNull()?:0
+                    newFlaw.FlawWidth =
+                        findViewById<EditText>(R.id.editTextFlawWidth).text.toString()
+                            .toDoubleOrNull() ?: 0.0
+                    newFlaw.FlawLength =
+                        findViewById<EditText>(R.id.editTextFlawLength).text.toString()
+                            .toIntOrNull() ?: 0
+                    newFlaw.FlawCount =
+                        findViewById<EditText>(R.id.editTextFlawCount).text.toString().toIntOrNull()
+                            ?: 0
 
-                newFlaw.capturedPic = imageFloor;
-                newFlaw.compareCapturedPic = imageCompFloor;
+                    newFlaw.capturedPic = imageFloor;
+                    newFlaw.compareCapturedPic = imageCompFloor;
 
-                if ( isEditMode  == false) {
-                    project.flawList.add(newFlaw);
-                }
-                else
-                {
-                    var flaw = project.flawList.find{
-                        f->f.id == newFlaw.id
-                    };
-                    var index = project.flawList.indexOf(flaw!!);
-                    project.flawList[index] = newFlaw;
-                }
+                    if (isEditMode == false) {
+                        project.flawList.add(newFlaw);
+                    } else {
+                        var flaw = project.flawList.find { f ->
+                            f.id == newFlaw.id
+                        };
+                        var index = project.flawList.indexOf(flaw!!);
+                        project.flawList[index] = newFlaw;
+                    }
 
-                /* 로컬 폴더에 사진을 저장한다 */
-                if ( capturePicSaveUri != null)
-                {
-                    newFlaw.capturedPicName = newFlaw.Floor + "_" + newFlaw.idBasedFloor  +".png"
-                    var file = File(capturePicSaveUri!!.path)
+                    /* 로컬 폴더에 사진을 저장한다 */
+                    if (capturePicSaveUri != null) {
+                        newFlaw.capturedPicName =
+                            newFlaw.Floor + "_" + newFlaw.idBasedFloor + ".png"
+                        var file = File(capturePicSaveUri!!.path)
 
-                    var destFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                        var destFile = File(
+                            getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
                             BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/" +
                                     "Pictures/" +
                                     newFlaw.Floor + "_"
-                                    +newFlaw.idBasedFloor + ".png")
+                                    + newFlaw.idBasedFloor + ".png"
+                        )
 
-                    if ( file.name != destFile.name) {
-                        if (!destFile.exists())
-                            destFile.delete()
-                        file.renameTo(destFile)
+                        if (file.name != destFile.name) {
+                            if (!destFile.exists())
+                                destFile.delete()
+                            file.renameTo(destFile)
+                        }
                     }
-                }
 
-                if (compCapturePicSaveUri != null)
+                    if (compCapturePicSaveUri != null) {
+                        newFlaw.compareCapturedPicName =
+                            newFlaw.Floor + "_" + newFlaw.idBasedFloor + "_비교.png"
+                        var file = File(compCapturePicSaveUri!!.path)
+
+                        var destFile = File(
+                            getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+                            BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/" +
+                                    "Pictures/" +
+                                    newFlaw.Floor + "_"
+                                    + newFlaw.idBasedFloor + "_비교.png"
+                        )
+
+                        if (file.absolutePath != destFile.absolutePath) {
+                            if (!destFile.exists())
+                                destFile.delete()
+                            file.renameTo(destFile)
+                        }
+                    }
+
+                    BuildingProjectListViewModel.rencentFlawModel = FlawModel()
+                    BuildingProjectListViewModel.rencentFlawModel!!.Name = newFlaw.Name
+                    BuildingProjectListViewModel.rencentFlawModel!!.Floor = newFlaw.Floor
+
+                    var intent = Intent(this, FlawListActivity::class.java);
+                    intent.putExtra("ID", newFlaw.id)
+                    startActivity(intent);
+                }
+                catch(e : Exception)
                 {
-                    newFlaw.compareCapturedPicName = newFlaw.Floor + "_" + newFlaw.idBasedFloor + "_비교.png"
-                    var file = File(compCapturePicSaveUri!!.path)
-
-                    var destFile = File(getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
-                        BuildingProjectListViewModel.BuildingProjectList[0].projectName + "/" +
-                                "Pictures/" +
-                                newFlaw.Floor + "_"
-                                +newFlaw.idBasedFloor + "_비교.png")
-
-                    if (file.absolutePath != destFile.absolutePath) {
-                        if (!destFile.exists())
-                            destFile.delete()
-                        file.renameTo(destFile)
-                    }
+                    Log.e("-message-", e.stackTrace.toString())
                 }
-
-                BuildingProjectListViewModel.rencentFlawModel = FlawModel()
-                BuildingProjectListViewModel.rencentFlawModel!!.Name = newFlaw.Name
-                BuildingProjectListViewModel.rencentFlawModel!!.Floor = newFlaw.Floor
-
-                var intent = Intent(this, FlawListActivity::class.java);
-                intent.putExtra("ID", newFlaw.id)
-                startActivity(intent);
             }
             R.id.buttonTakeAPhoto ->
             {
